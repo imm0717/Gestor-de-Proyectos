@@ -20,7 +20,10 @@
                                     <th scope="col">{{ __('Name') }}</th>
                                     <th scope="col" width="50px">{{ __('Start Date') }}</th>
                                     <th scope="col" width="120px">
-                                        <button type="button" class="btn btn-secondary btn-sm">{{ __('New') }}</button>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                            {{ __('New') }}
+                                        </button>
                                     </th>
                                 </tr>
                                 </thead>
@@ -31,7 +34,9 @@
                                         <td>{{ $project->name  }}</td>
                                         <td>{{ $project->start_date }}</td>
                                         <td>
-                                            <button type="button" class="btn btn-primary btn-sm" wire:click="editBtnHandler({{$project}})" >{{ __('Edit') }}</button>
+                                            <button type="button" wire:click="edit({{$project}})" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+                                                {{ __('Edit') }}
+                                            </button>
                                             <form class="d-inline" method="post" action="">
                                                 @csrf
                                                 @method('DELETE')
@@ -51,4 +56,6 @@
             </div>
         </div>
     </div>
+    @include('livewire.project.partials.form');
 </div>
+

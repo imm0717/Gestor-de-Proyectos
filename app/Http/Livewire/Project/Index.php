@@ -8,18 +8,25 @@ use Livewire\Component;
 class Index extends Component
 {
     public $projects;
+    public $form = null;
 
-    protected $listeners = [
+    protected $rules = [
+        'form.name' => 'string|max:256',
+        'form.start_date' => 'required|date',
+        'form.end_date' => 'required|date'
+    ];
+
+    /*protected $listeners = [
         'newProject' => 'newProjectHandler',
         'projectChange' => 'projectChangeHandler'
-    ];
+    ];*/
 
     private function loadProjects(){
         $this->projects = Project::latest()->get();
     }
 
 
-    public function editBtnHandler($project){
+    /*public function editBtnHandler($project){
         $this->emit('editProject', $project);
     }
 
@@ -29,6 +36,10 @@ class Index extends Component
 
     public function newProjectHandler(){
         $this->loadProjects();
+    }*/
+
+    public function edit($project){
+        $this->form = $project;
     }
 
     public function render()

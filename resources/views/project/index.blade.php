@@ -3,11 +3,8 @@
 
     @section('content')
             <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                             <livewire:project.index />
-                    </div>
-                    <div class="col-md-6">
-                            <livewire:project.form />
                     </div>
             </div>
 
