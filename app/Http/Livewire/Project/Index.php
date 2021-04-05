@@ -8,12 +8,13 @@ use Livewire\Component;
 class Index extends Component
 {
     public $projects;
-    public $form = null;
+    public $project = null;
 
     protected $rules = [
-        'form.name' => 'string|max:256',
-        'form.start_date' => 'required|date',
-        'form.end_date' => 'required|date'
+        'project.name' => 'string|max:256',
+        'project.start_date' => 'required|date',
+        'project.end_date' => 'required|date',
+        'project.description' => 'string'
     ];
 
     /*protected $listeners = [
@@ -38,8 +39,20 @@ class Index extends Component
         $this->loadProjects();
     }*/
 
-    public function edit($project){
-        $this->form = $project;
+    public function resetForm(){
+        $this->resetValidation();
+        $this->project = new Project();
+    }
+
+    public function edit($id){
+        $this->resetForm();
+        $this->project = Project::findOrFail($id);
+    }
+
+    public function submit(){
+        $this->validate($this->rules);
+        $this->project->save();
+        $this->dispatchBrowserEvent('projectStored');
     }
 
     public function render()
@@ -49,6 +62,5 @@ class Index extends Component
 
     public function mount(){
         $this->loadProjects();
-
     }
 }
