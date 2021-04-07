@@ -11,15 +11,13 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-
-                        @if($projects)
                             <table class="table table-striped table-bordered table-hover table-checkable" id="project_list_table">
                                 <thead>
                                 <tr>
                                     <th scope="col" width="10px">#</th>
                                     <th scope="col">{{ __('Name') }}</th>
                                     <th scope="col" width="80px">{{ __('Start Date') }}</th>
-                                    <th scope="col" width="120px" data-orderable="false">
+                                    <th scope="col" width="120px">
                                         <!-- Button trigger modal -->
                                         <button type="button" wire:click="resetForm()" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
                                             {{ __('New') }}
@@ -37,25 +35,22 @@
                                             <button type="button" wire:click="edit('{{$project_data['id']}}')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
                                                 {{ __('Edit') }}
                                             </button>
-                                            <form class="d-inline" method="post" action="">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-secondary btn-sm">{{ __('Remove') }}</button>
-                                            </form>
+                                            <button type="button" wire:click="showDeleteConfirmationModal('{{$project_data['id']}}')" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete_modal">
+                                                {{ __('Delete') }}
+                                            </button>
                                         </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
-                        @else
-                            {{ __('No Projects') }}
-                        @endif
+                            {{ $projects->links() }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
     @include('livewire.project.partials.form');
+    @include('partials.delete-modal');
 </div>
 @push('scripts')
     <script type="text/javascript">
@@ -63,13 +58,28 @@
             $('#exampleModal').modal('hide');
         });
 
+        window.addEventListener('closeDeleteModal', () => {
+            $('#delete_modal').modal('hide');
+        });
 
+        $(".start_date").datetimepicker({
+            format: 'dd-mm-yyyy',
+            startView: 2,
+            minView: 2
+        }).on('changeDate', function(ev){
+            $date = ev.date.getTime()/1000;
+            Livewire.emit("selectStartDate", $date)
+        });
 
-        $('document').ready(() => {
-            $('#project_list_table').DataTable( {
-                paging: true
-            } );
-        })
+        $(".end_date").datetimepicker({
+            format: 'dd-mm-yyyy',
+            startView: 2,
+            minView: 2
+        }).on('changeDate', function(ev){
+            $date = ev.date.getTime()/1000;
+            Livewire.emit("selectEndDate", $date)
+            //@this.set('project.end_date', $date);
+        });
+
     </script>
 @endpush
-

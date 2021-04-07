@@ -3,45 +3,33 @@
 namespace App\Http\Livewire\Project;
 
 use App\Models\Project;
+use Carbon\Carbon;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
-    public $projects;
+    use WithPagination;
+
+    private $itemsPerPage = 10;
+    protected $paginationTheme = 'bootstrap';
+    protected $listeners = ['selectEndDate', 'selectStartDate'];
+
+
     public $project = null;
 
     protected $rules = [
         'project.name' => 'string|max:256',
         'project.start_date' => 'required|date',
         'project.end_date' => 'required|date',
-        'project.description' => 'string'
+        'project.description' => 'string|max:256',
+        'project.created_by_id' => 'required'
     ];
-
-    /*protected $listeners = [
-        'newProject' => 'newProjectHandler',
-        'projectChange' => 'projectChangeHandler'
-    ];*/
-
-    private function loadProjects(){
-        $this->projects = Project::latest()->get();
-    }
-
-
-    /*public function editBtnHandler($project){
-        $this->emit('editProject', $project);
-    }
-
-    public function projectChangeHandler(){
-        $this->projects = $this->projects->fresh();
-    }
-
-    public function newProjectHandler(){
-        $this->loadProjects();
-    }*/
 
     public function resetForm(){
         $this->resetValidation();
         $this->project = new Project();
+        $this->project->created_by_id = auth()->id();
     }
 
     public function edit($id){
@@ -55,12 +43,26 @@ class Index extends Component
         $this->dispatchBrowserEvent('projectStored');
     }
 
-    public function render()
-    {
-        return view('livewire.project.index');
+    public function showDeleteConfirmationModal($id){
+        $this->project = Project::find($id);
     }
 
-    public function mount(){
-        $this->loadProjects();
+    public function delete(){
+        $this->project->delete();
+        $this->dispatchBrowserEvent('closeDeleteModal');
+    }
+
+    public function selectStartDate($value){
+        $this->project->start_date = Carbon::createFromTimestamp($value)->toDateString();
+    }
+
+    public function selectEndDate($value){
+        $this->project->end_date = Carbon::createFromTimestamp($value)->toDateString();
+    }
+
+    public function render(){
+        return view('livewire.project.index', [
+            'projects' => Project::latest()->paginate($this->itemsPerPage)
+        ]);
     }
 }

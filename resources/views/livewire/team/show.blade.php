@@ -47,6 +47,7 @@
                         @else
                             {{ __('No Teams') }}
                         @endif
+                        {{ $teams->links() }}
                     </div>
                 </div>
             </div>
