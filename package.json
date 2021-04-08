@@ -22,6 +22,6 @@
         "sass-loader": "^8.0.0"
     },
     "dependencies": {
-        "datatables.net": "^1.10.24"
+        "moment": "^2.29.1"
     }
 }

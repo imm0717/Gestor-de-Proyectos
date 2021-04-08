@@ -12,12 +12,14 @@
 
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    {{--<link rel="dns-prefetch" href="//fonts.gstatic.com">--}}
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('vendor/general/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    {{--<link href="{{ mix('css/custom.css') }}" rel="stylesheet">--}}
+    {{--<link href="{{ asset('vendor/general/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css') }}" rel="stylesheet">--}}
+    <link href="{{ asset('vendor/general/Date-Time-Picker-Bootstrap-4/build/css/bootstrap-datetimepicker.css') }}" rel="stylesheet">
     @livewireStyles
     @stack('styles')
 
@@ -100,8 +102,9 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('vendor/general/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js') }}"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
+    {{--<script src="{{ asset('vendor/general/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js') }}"></script>--}}
+    <script src="{{ asset('vendor/general/Date-Time-Picker-Bootstrap-4/build/js/bootstrap-datetimepicker.min.js') }}"></script>
 
     @stack('scripts')
     @livewireScripts

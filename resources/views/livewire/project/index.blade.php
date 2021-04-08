@@ -6,6 +6,8 @@
                     <div class="card-header">{{ __('Projects') }}</div>
 
                     <div class="card-body">
+
+
                         @if (session('status'))
                             <div class="alert alert-success" role="alert">
                                 {{ session('status') }}
@@ -62,7 +64,26 @@
             $('#delete_modal').modal('hide');
         });
 
-        $(".start_date").datetimepicker({
+        $('.projectStartDate').datetimepicker({
+            format: 'DD-MM-YYYY'
+        }).on('dp.change', function(ev){
+            date = ev.date.format('{{ config('app.front_format') }}');
+            Livewire.emit("selectStartDate", date)
+        });
+
+        $('.projectEndtDate').datetimepicker({
+            format: 'DD-MM-YYYY'
+        }).on('dp.change', function(ev){
+            date = ev.date.format('{{ config('app.front_format') }}');
+            Livewire.emit("selectEndDate", date)
+        });
+
+        $('#myTab a').on('click', function(e){
+            e.preventDefault()
+            console.log(e.target)
+        })
+
+        /*$("#project_start_date").datetimepicker({
             format: 'dd-mm-yyyy',
             startView: 2,
             minView: 2
@@ -71,7 +92,7 @@
             Livewire.emit("selectStartDate", $date)
         });
 
-        $(".end_date").datetimepicker({
+        $("#project_end_date").datetimepicker({
             format: 'dd-mm-yyyy',
             startView: 2,
             minView: 2
@@ -79,7 +100,7 @@
             $date = ev.date.getTime()/1000;
             Livewire.emit("selectEndDate", $date)
             //@this.set('project.end_date', $date);
-        });
+        });*/
 
     </script>
 @endpush
