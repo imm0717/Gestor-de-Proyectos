@@ -100,12 +100,10 @@
             @yield('content')
         </main>
     </div>
-
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}"></script>
     {{--<script src="{{ asset('vendor/general/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js') }}"></script>--}}
     <script src="{{ asset('vendor/general/Date-Time-Picker-Bootstrap-4/build/js/bootstrap-datetimepicker.min.js') }}"></script>
-
     @stack('scripts')
     @livewireScripts
 </body>

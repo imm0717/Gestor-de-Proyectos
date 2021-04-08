@@ -4,10 +4,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">{{ __('Projects') }}</div>
-
                     <div class="card-body">
-
-
                         @if (session('status'))
                             <div class="alert alert-success" role="alert">
                                 {{ session('status') }}
@@ -53,54 +50,36 @@
     </div>
     @include('livewire.project.partials.form');
     @include('partials.delete-modal');
+    @include('partials.alerts');
 </div>
 @push('scripts')
     <script type="text/javascript">
         window.addEventListener('projectStored', () => {
             $('#exampleModal').modal('hide');
-        });
+        })
 
         window.addEventListener('closeDeleteModal', () => {
             $('#delete_modal').modal('hide');
-        });
+        })
 
         $('.projectStartDate').datetimepicker({
             format: 'DD-MM-YYYY'
         }).on('dp.change', function(ev){
             date = ev.date.format('{{ config('app.front_format') }}');
             Livewire.emit("selectStartDate", date)
-        });
+        })
 
         $('.projectEndtDate').datetimepicker({
             format: 'DD-MM-YYYY'
         }).on('dp.change', function(ev){
             date = ev.date.format('{{ config('app.front_format') }}');
             Livewire.emit("selectEndDate", date)
-        });
-
-        $('#myTab a').on('click', function(e){
-            e.preventDefault()
-            console.log(e.target)
         })
 
-        /*$("#project_start_date").datetimepicker({
-            format: 'dd-mm-yyyy',
-            startView: 2,
-            minView: 2
-        }).on('changeDate', function(ev){
-            $date = ev.date.getTime()/1000;
-            Livewire.emit("selectStartDate", $date)
-        });
 
-        $("#project_end_date").datetimepicker({
-            format: 'dd-mm-yyyy',
-            startView: 2,
-            minView: 2
-        }).on('changeDate', function(ev){
-            $date = ev.date.getTime()/1000;
-            Livewire.emit("selectEndDate", $date)
-            //@this.set('project.end_date', $date);
-        });*/
+        $(document).ready(function(){
+            $(".toast").toast();
+        });
 
     </script>
 @endpush

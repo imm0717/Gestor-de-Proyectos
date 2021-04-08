@@ -19,7 +19,7 @@
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             @foreach($locales as $locale)
-                                <a class="nav-item nav-link font-weight-bold @if($locale == $default_locale) active @endif" id="nav-{{$locale}}-tab"
+                                <a wire:ignore class="nav-item nav-link font-weight-bold @if($locale == $default_locale) active @endif" id="nav-{{$locale}}-tab"
                                    data-toggle="tab" href="#nav-{{$locale}}" role="tab" aria-controls="nav-{{$locale}}"
                                    aria-selected="true">{{ strtoupper($locale) }}</a>
                             @endforeach
@@ -29,7 +29,7 @@
                 <form wire:submit.prevent="submit">
                     <div class="tab-content" id="nav-tabContent">
                         @foreach($locales as $locale)
-                            <div class="tab-pane fade border show @if($locale == $default_locale) active @endif" id="nav-{{$locale}}"
+                            <div wire:ignore.self class="tab-pane fade border show @if($locale == $default_locale) active @endif" id="nav-{{$locale}}"
                                  role="tabpanel" aria-labelledby="nav-{{$locale}}-tab">
                                 <div class="container pt-2">
                                     <div class="form-group">
@@ -46,7 +46,7 @@
                                     <div class="form-group row">
                                         <div class="form-group col-md-6">
                                             <label for="start_date">{{ __('Start Date') }}</label>
-                                            <div class="input-group input-group-sm projectStartDate">
+                                            <div wire:ignore class="input-group input-group-sm projectStartDate">
                                                 <input type="text"
                                                        class="form-control @error('project.start_date') is-invalid @enderror"
                                                        wire:model.lazy="project.start_date"
@@ -64,7 +64,7 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="end_date">{{ __('End Date') }}</label>
-                                            <div class="input-group input-group-sm projectEndtDate">
+                                            <div wire:ignore class="input-group input-group-sm projectEndtDate">
                                                 <input type="text"
                                                        class="form-control @error('project.end_date') is-invalid @enderror"
                                                        wire:model.lazy="project.end_date"
