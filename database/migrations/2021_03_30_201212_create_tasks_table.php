@@ -17,8 +17,6 @@ class CreateTasksTable extends Migration
             $table->uuid('id')->primary();
             $table->uuid('parent_id')->nullable();
             $table->foreignUuid('project_id')->constrained('projects')->cascadeOnDelete();
-            $table->string('name', 256)->nullable(false);
-            $table->text('description');
             $table->date('start_date')->nullable(false);
             $table->date('end_date')->nullable(false);
             $table->date('real_end_date')->nullable();

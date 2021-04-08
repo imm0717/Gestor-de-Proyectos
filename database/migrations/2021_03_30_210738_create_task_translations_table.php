@@ -17,8 +17,8 @@ class CreateTaskTranslationsTable extends Migration
             $table->id();
             $table->foreignUuid('task_id')->constrained('tasks')->cascadeOnDelete();
             $table->string('locale')->index();
-            $table->string('title');
-            $table->text('content');
+            $table->string('name');
+            $table->text('description');
 
             $table->unique(['task_id', 'locale']);
         });

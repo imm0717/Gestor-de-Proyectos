@@ -17,8 +17,8 @@ class CreateProjectTranslationsTable extends Migration
             $table->id();
             $table->foreignUuid('project_id')->constrained('projects')->cascadeOnDelete();
             $table->string('locale')->index();
-            $table->string('title');
-            $table->text('content');
+            $table->string('name');
+            $table->text('description');
             $table->timestamps();
 
             $table->unique(['project_id', 'locale']);
