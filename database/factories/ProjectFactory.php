@@ -23,8 +23,6 @@ class ProjectFactory extends Factory
     public function definition()
     {
         return [
-            'name' => Str::random(3),
-            'description' => $this->faker->text(),
             'start_date' => $this->faker->date(),
             'end_date' => $this->faker->date(),
         ];

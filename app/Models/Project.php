@@ -8,15 +8,16 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
+use App\Models\ProjectTranslation;
 
-class Project extends Model
+class Project extends Model implements TranslatableContract
 {
     use HasFactory;
     use AutoGenerateUuid;
-    //use Translatable;
+    use Translatable;
 
     public $incrementing = false;
-    //public $translatedAttributes = ['name', 'description'];
+    public $translatedAttributes = ['name', 'description'];
 
     protected $keyType = 'string';
     protected $fillable = ['name','description', 'start_date', 'end_date', 'created_by_id'];
@@ -39,6 +40,4 @@ class Project extends Model
     public function getEndDateAttribute($value){
         return (isset($value)) ? Carbon::createFromFormat('Y-m-d', $value)->format('d-m-Y') : $value;
     }
-
-
 }
