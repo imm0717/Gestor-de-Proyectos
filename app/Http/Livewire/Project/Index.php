@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Project;
 
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Database\QueryException;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -25,6 +26,7 @@ class Index extends Component
         'data.en.description' => 'required|string|max:256',
         'project.start_date' => 'required|date',
         'project.end_date' => 'required|date',
+        'project.owner_id' => 'nullable',
         'project.created_by_id' => 'required'
     ];
 
@@ -43,9 +45,10 @@ class Index extends Component
     }
 
 
-    public function resetForm(){
+    public function resetForm($parent_id = null){
         $this->resetValidation();
         $this->project = new Project();
+        $this->project->parent_id = (isset($parent_id)) ? $parent_id : null;
         $this->project->created_by_id = auth()->id();
         foreach (config('translatable.locales') as $locale) {
             $this->data[$locale]['name'] = '';
@@ -107,7 +110,8 @@ class Index extends Component
 
     public function render(){
         return view('livewire.project.index', [
-            'projects' => Project::with('translations')->paginate($this->itemsPerPage),
+            'projects' => Project::with('translations')->with('childs')->where('parent_id', null)->paginate($this->itemsPerPage),
+            'users' => User::all(),
             'locales' => config('translatable.locales'),
             'default_locale' => config('app.locale')
         ]);

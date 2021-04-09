@@ -40,4 +40,15 @@ class Project extends Model implements TranslatableContract
     public function getEndDateAttribute($value){
         return (isset($value)) ? Carbon::createFromFormat('Y-m-d', $value)->format('d-m-Y') : $value;
     }
+
+    public function parent(){
+        return $this->belongsTo("App\Models\Project", "parent_id")->where('parent_id', '=', null);
+    }
+
+    public function childs(){
+        return $this->hasMany("App\Models\Project","parent_id", "id")->where('parent_id', "<>" ,null);
+    }
+    public function owner(){
+        return $this->belongsTo("App\Models\User");
+    }
 }

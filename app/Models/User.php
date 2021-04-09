@@ -55,4 +55,8 @@ class User extends Authenticatable
     public function teams(){
         return $this->belongsToMany('App\Models\Team');
     }
+
+    public function projectsOwner(){
+        return $this->hasMany("App\Models\Project");
+    }
 }

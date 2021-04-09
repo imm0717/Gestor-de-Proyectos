@@ -14,11 +14,11 @@
                                 <thead>
                                 <tr>
                                     <th scope="col" width="10px">#</th>
-                                    <th scope="col">{{ __('Name') }}</th>
-                                    <th scope="col" width="80px">{{ __('Start Date') }}</th>
-                                    <th scope="col" width="120px">
+                                    <th scope="col">@lang('view.livewire.project.index.table.header-name')</th>
+                                    <th scope="col" width="80px">@lang('view.livewire.project.index.table.header-startdate')</th>
+                                    <th scope="col" width="130px">
                                         <!-- Button trigger modal -->
-                                        <button type="button" wire:click="resetForm()" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+                                        <button type="button" wire:click="resetForm('8a5bb42a-440a-409f-97db-5877a7c53f3e')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
                                             {{ __('New') }}
                                         </button>
                                     </th>
@@ -37,6 +37,31 @@
                                             <button type="button" wire:click="showDeleteConfirmationModal('{{$project_data['id']}}')" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete_modal">
                                                 {{ __('Delete') }}
                                             </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            <div>
+                                                <table class="table table-striped table-bordered table-hover table-checkable">
+                                                    <tbody>
+                                                        @foreach($project_data->childs()->with('translations')->get() as $child)
+                                                            <tr>
+                                                                <td width="10px">{{ $loop->parent->iteration . "." . $loop->iteration  }}</td>
+                                                                <td>{{ $child->name  }}</td>
+                                                                <td width="80px">{{ $child->start_date }}</td>
+                                                                <td width="130px">
+                                                                    <button type="button" wire:click="edit('{{$child['id']}}')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+                                                                        {{ __('Edit') }}
+                                                                    </button>
+                                                                    <button type="button" wire:click="showDeleteConfirmationModal('{{$child['id']}}')" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete_modal">
+                                                                        {{ __('Delete') }}
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
