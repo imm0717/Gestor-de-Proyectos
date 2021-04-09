@@ -5,9 +5,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 @if(!isset($this->project->id) || $this->project->id == null)
-                    <h5 class="modal-title" id="exampleModalLabel"> Create Project</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">@lang('view.livewire.project.partials.form.create')</h5>
                 @else
-                    <h5 class="modal-title" id="exampleModalLabel"> Update Project</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">@lang('view.livewire.project.partials.form.update')</h5>
                 @endif
                 <button wire:click.prevent="resetForm()" type="button" class="close" data-dismiss="modal"
                         aria-label="Close">
@@ -82,6 +82,16 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <label>{{__('Owner')}}</label>
+                                        <select class="form-control form-control-sm" wire:model="project.owner_id">
+                                            <option value="">{{ __('Select') }}</option>
+                                            @foreach($users as $user)
+                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="desciption">{{ __('Description') }}</label>
                                         <textarea
                                                 class="form-control @if($errors->has('data.'.$locale.'.description')) is-invalid @endif"
@@ -101,11 +111,10 @@
                         <div class="col-md-12">
                             <button type="button" wire:click="resetForm()" class="btn btn-secondary"
                                     data-dismiss="modal">
-                                Close
+                                {{ __('Close') }}
                             </button>
                             <button type="submit" class="btn btn-primary" @if($errors->isNotEmpty()) disabled @endif>
-                                Save
-                                changes
+                                {{ __('Save') }}
                             </button>
                         </div>
                     </div>
