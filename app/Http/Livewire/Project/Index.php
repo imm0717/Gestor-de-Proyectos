@@ -27,7 +27,8 @@ class Index extends Component
         'project.start_date' => 'required|date',
         'project.end_date' => 'required|date',
         'project.owner_id' => 'nullable',
-        'project.created_by_id' => 'required'
+        'project.created_by_id' => 'required',
+        'project.parent_id' => 'nullable'
     ];
 
     protected $validationAttributes = [

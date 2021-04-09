@@ -4,11 +4,22 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                @if(!isset($this->project->id) || $this->project->id == null)
-                    <h5 class="modal-title" id="exampleModalLabel">@lang('view.livewire.project.partials.form.create')</h5>
-                @else
-                    <h5 class="modal-title" id="exampleModalLabel">@lang('view.livewire.project.partials.form.update')</h5>
-                @endif
+
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        @if(!isset($this->project->parent_id) || $this->project->parent_id == null)
+                            @if(!isset($this->project->id) || $this->project->id == null)
+                                @lang('view.livewire.project.partials.form.create')
+                            @else
+                                @lang('view.livewire.project.partials.form.update')
+                            @endif
+                        @else
+                            @if(!isset($this->project->id) || $this->project->id == null)
+                                @lang('view.livewire.project.partials.form.create-subproject')
+                            @else
+                                @lang('view.livewire.project.partials.form.update-subproject')
+                            @endif
+                        @endif
+                    </h5>
                 <button wire:click.prevent="resetForm()" type="button" class="close" data-dismiss="modal"
                         aria-label="Close">
                     <span aria-hidden="true">&times;</span>

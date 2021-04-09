@@ -42,11 +42,11 @@ class Project extends Model implements TranslatableContract
     }
 
     public function parent(){
-        return $this->belongsTo("App\Models\Project", "parent_id")->where('parent_id', '=', null);
+        return $this->belongsTo("App\Models\Project", "parent_id")->where('parent_id', '=', null)->with('translations');
     }
 
     public function childs(){
-        return $this->hasMany("App\Models\Project","parent_id", "id")->where('parent_id', "<>" ,null);
+        return $this->hasMany("App\Models\Project","parent_id", "id")->where('parent_id', "<>" ,null)->with('translations');
     }
     public function owner(){
         return $this->belongsTo("App\Models\User");

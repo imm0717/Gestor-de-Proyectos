@@ -8,5 +8,9 @@
   "End Date": "Fecha de Culminación",
   "Description": "Descripción",
   "Close": "Cerrar",
-  "Save": "Guardar"
+  "Save": "Guardar",
+  "Owner": "Responsable",
+  "Select": "Seleccione",
+  "Add Subproject": "Nuevo Subproyecto",
+  "Actions": "Acciones"
 }

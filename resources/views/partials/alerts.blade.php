@@ -3,7 +3,7 @@
     <!-- Position toasts -->
     <div style="position: absolute; bottom: 0; right: 0;">
         @if(session()->has('message'))
-        <div class="toast fade show alert alert-info"   data-autohide="false" style="width: 300px">
+        <div class="toast fade show alert alert-info" data-delay="2000" style="width: 300px">
             <div class="toast-header">
                 <strong class="mr-auto"><i class="fa fa-globe"></i> Hello, world!</strong>
                 <small class="text-muted">{{ \Illuminate\Support\Carbon::now()->format('d-m-Y') }}</small>

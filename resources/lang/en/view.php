@@ -13,12 +13,15 @@ return [
                     'header-name' => 'Name',
                     'header-startdate' => 'Start Date',
                     'header-enddate' => 'End Date'
-                ]
+                ],
+                'title' => 'Projects & Child Projects'
             ],
             'partials' => [
                 'form' => [
                     'create' => 'Create Project',
-                    'update' => 'Update Project'
+                    'update' => 'Update Project',
+                    'create-subproject' => 'Create Subproject',
+                    'update-subproject' => 'Update Subproject'
                 ]
             ]
         ]

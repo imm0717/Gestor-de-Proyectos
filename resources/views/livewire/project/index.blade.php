@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">{{ __('Projects') }}</div>
+                    <div class="card-header">@lang('view.livewire.project.index.title')</div>
                     <div class="card-body">
                         @if (session('status'))
                             <div class="alert alert-success" role="alert">
@@ -18,7 +18,7 @@
                                     <th scope="col" width="80px">@lang('view.livewire.project.index.table.header-startdate')</th>
                                     <th scope="col" width="130px">
                                         <!-- Button trigger modal -->
-                                        <button type="button" wire:click="resetForm('8a5bb42a-440a-409f-97db-5877a7c53f3e')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+                                        <button type="button" wire:click="resetForm()" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
                                             {{ __('New') }}
                                         </button>
                                     </th>
@@ -31,39 +31,25 @@
                                         <td>{{ $project_data->name  }}</td>
                                         <td>{{ $project_data->start_date }}</td>
                                         <td>
-                                            <button type="button" wire:click="edit('{{$project_data['id']}}')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
-                                                {{ __('Edit') }}
-                                            </button>
-                                            <button type="button" wire:click="showDeleteConfirmationModal('{{$project_data['id']}}')" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete_modal">
-                                                {{ __('Delete') }}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="4">
-                                            <div>
-                                                <table class="table table-striped table-bordered table-hover table-checkable">
-                                                    <tbody>
-                                                        @foreach($project_data->childs()->with('translations')->get() as $child)
-                                                            <tr>
-                                                                <td width="10px">{{ $loop->parent->iteration . "." . $loop->iteration  }}</td>
-                                                                <td>{{ $child->name  }}</td>
-                                                                <td width="80px">{{ $child->start_date }}</td>
-                                                                <td width="130px">
-                                                                    <button type="button" wire:click="edit('{{$child['id']}}')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
-                                                                        {{ __('Edit') }}
-                                                                    </button>
-                                                                    <button type="button" wire:click="showDeleteConfirmationModal('{{$child['id']}}')" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete_modal">
-                                                                        {{ __('Delete') }}
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
+                                            <div class="dropdown">
+                                                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    {{ __('Actions') }}
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="#" wire:click="edit('{{$project_data['id']}}')" data-toggle="modal" data-target="#exampleModal">{{ __('Edit') }}</a>
+                                                    <a class="dropdown-item" href="#" wire:click="resetForm('{{$project_data['id']}}')" data-toggle="modal" data-target="#exampleModal" >{{ __('Add Subproject') }}</a>
+                                                    <a class="dropdown-item" href="#" wire:click="showDeleteConfirmationModal('{{$project_data['id']}}')" data-toggle="modal" data-target="#delete_modal">{{ __('Delete') }}</a>
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>
+                                    @if($project_data->childs()->count() > 0)
+                                    <tr>
+                                        <td colspan="4">
+                                            @include('livewire.project.partials.subproject-list')
+                                        </td>
+                                    </tr>
+                                    @endif
                                 @endforeach
                                 </tbody>
                             </table>
@@ -73,9 +59,9 @@
             </div>
         </div>
     </div>
-    @include('livewire.project.partials.form');
-    @include('partials.delete-modal');
-    @include('partials.alerts');
+    @include('livewire.project.partials.form')
+    @include('partials.delete-modal')
+    @include('partials.alerts')
 </div>
 @push('scripts')
     <script type="text/javascript">
