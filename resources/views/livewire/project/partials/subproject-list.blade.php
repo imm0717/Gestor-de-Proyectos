@@ -7,7 +7,7 @@
             <td width="80px">{{ $child->start_date }}</td>
             <td width="130px">
                 <div class="dropdown">
-                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ __('Actions') }}
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

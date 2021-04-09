@@ -32,7 +32,7 @@
                                         <td>{{ $project_data->start_date }}</td>
                                         <td>
                                             <div class="dropdown">
-                                                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     {{ __('Actions') }}
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -61,7 +61,6 @@
     </div>
     @include('livewire.project.partials.form')
     @include('partials.delete-modal')
-    @include('partials.alerts')
 </div>
 @push('scripts')
     <script type="text/javascript">
