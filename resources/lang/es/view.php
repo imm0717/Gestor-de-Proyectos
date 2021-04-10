@@ -16,6 +16,9 @@ return [
                 ],
                 'title' => 'Proyectos y Subproyectos'
             ],
+            'details' => [
+                'title' => 'Detalles del Proyecto'
+            ],
             'partials' => [
                 'form' => [
                     'create' => 'Nuevo Proyecto',

@@ -43,6 +43,11 @@
                             <div wire:ignore.self class="tab-pane fade border show @if($locale == $default_locale) active @endif" id="nav-{{$locale}}"
                                  role="tabpanel" aria-labelledby="nav-{{$locale}}-tab">
                                 <div class="container pt-2">
+                                    @if(isset($data[$locale]['parent_name']) && $data[$locale]['parent_name'] != "")
+                                    <div class="form-group">
+                                        <h4 class="h4">{{ __('Parent Project') }}: {{ $data[$locale]['parent_name'] }}</h4>
+                                    </div>
+                                    @endif
                                     <div class="form-group">
                                         <label for="name">{{ __('Name') }}</label>
                                         <input type="text"

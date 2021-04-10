@@ -18,8 +18,6 @@ class Index extends Component
 
     public $project = null;
     public $data = [];
-    public $multilanguage_keys = ['name', 'description'];
-    public $selectedTab = '';
 
     protected $rules = [
         'data.en.name' => 'required|string|max:50',
@@ -49,22 +47,34 @@ class Index extends Component
     public function resetForm($parent_id = null){
         $this->resetValidation();
         $this->project = new Project();
-        $this->project->parent_id = (isset($parent_id)) ? $parent_id : null;
+        $this->project->parent_id = $parent_id;
         $this->project->created_by_id = auth()->id();
+
+        if (isset($parent_id)){
+            $parent_project = Project::find($parent_id);
+            $parent_translations = $parent_project->getTranslationsArray();
+        }
+
         foreach (config('translatable.locales') as $locale) {
             $this->data[$locale]['name'] = '';
             $this->data[$locale]['description'] = '';
+            $this->data[$locale]['parent_name'] = (isset($parent_translations[$locale]['name'])) ? $parent_translations[$locale]['name'] : '';
         }
     }
 
     public function edit($id){
-        $this->resetForm();
         $this->project = Project::findOrFail($id);
         $translations = $this->project->getTranslationsArray();
+        $project_parent = $this->project->parent;
+        if (isset($project_parent)){
+            $parent_translations = $this->project->parent->getTranslationsArray();
+        }
 
         foreach (config('translatable.locales') as $locale){
             $this->data[$locale]['name'] = $translations[$locale]['name'];
             $this->data[$locale]['description'] = $translations[$locale]['description'];
+            if ( isset($project_parent) && count($parent_translations) > 0 )
+                $this->data[$locale]['parent_name'] = $parent_translations[$locale]['name'];
         }
     }
 
@@ -85,6 +95,7 @@ class Index extends Component
             $this->dispatchBrowserEvent('projectStored');
             $this->resetForm();
             session()->flash('message', 'Todo OK');
+
         }catch(QueryException $e){
             session()->keep('message', 'Ocurrio un error');
         }

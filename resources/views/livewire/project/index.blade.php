@@ -36,6 +36,7 @@
                                                     {{ __('Actions') }}
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="{{ route('project.detail', $project_data) }}">{{ __('Details') }}</a>
                                                     <a class="dropdown-item" href="#" wire:click="edit('{{$project_data['id']}}')" data-toggle="modal" data-target="#exampleModal">{{ __('Edit') }}</a>
                                                     <a class="dropdown-item" href="#" wire:click="resetForm('{{$project_data['id']}}')" data-toggle="modal" data-target="#exampleModal" >{{ __('Add Subproject') }}</a>
                                                     <a class="dropdown-item" href="#" wire:click="showDeleteConfirmationModal('{{$project_data['id']}}')" data-toggle="modal" data-target="#delete_modal">{{ __('Delete') }}</a>

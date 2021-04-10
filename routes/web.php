@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::delete('/teams/{team}', [TeamController::class, 'destroy'])->name('team.delete');
 
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects');
+    Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('project.detail');
 });
 
 
