@@ -10,5 +10,5 @@ class TaskTranslation extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $fillable = ['title', 'content'];
+    protected $fillable = ['name', 'description'];
 }

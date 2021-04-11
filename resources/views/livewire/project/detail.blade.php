@@ -5,6 +5,7 @@
                 <div class="card">
                     <div class="card-header">@lang('view.livewire.project.details.title')</div>
                     <div class="card-body">
+                        {{ $project->id }}
                         <form>
                             <div class="row">
                                 <div class="col-6">
@@ -81,7 +82,7 @@
                             <div wire:ignore.self class="tab-pane fade border show" id="nav-tasks"
                                  role="tabpanel" aria-labelledby="nav-files-tab">
                                 <div class="container pt-2">
-                                    <livewire:task.index :project_id="$project->id"/>
+                                    <livewire:task.index :project="$project"/>
                                 </div>
                             </div>
                             <div wire:ignore.self class="tab-pane fade border show" id="nav-collaborators"
