@@ -27,6 +27,24 @@ return [
                     'update-subproject' => 'Actualizar Subproyecto'
                 ]
             ]
+        ],
+        'task' => [
+            'index' => [
+                'table' => [
+                    'header-name' => 'Nombre',
+                    'header-startdate' => 'Inicio',
+                    'header-enddate' => 'Conclución'
+                ]
+            ],
+            'partials' => [
+                'form' => [
+                    'create' => 'Nueva Tarea',
+                    'update' => 'Actualizar Tarea',
+                    'create-subproject' => 'Nueva Subtarea',
+                    'update-subproject' => 'Actualizar Subtarea'
+                ]
+            ]
+
         ]
     ],
     'partials' => [

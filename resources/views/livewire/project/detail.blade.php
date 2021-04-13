@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="card-header">@lang('view.livewire.project.details.title')</div>
                     <div class="card-body">
-                        <form>
+                        <form class="">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group row">
@@ -81,7 +81,7 @@
                             <div wire:ignore.self class="tab-pane fade border show" id="nav-tasks"
                                  role="tabpanel" aria-labelledby="nav-files-tab">
                                 <div class="container pt-2">
-                                    Tasks
+                                    <livewire:task.index :project="$project"/>
                                 </div>
                             </div>
                             <div wire:ignore.self class="tab-pane fade border show" id="nav-collaborators"
@@ -106,6 +106,8 @@
 
 @push('scripts')
     <script type="text/javascript">
+
+
         $(document).ready(function(){
             $('#owner').on('change', function(e){
                 Livewire.emit('setOwner', $(e.target).val())

@@ -4,7 +4,6 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-
                     <h5 class="modal-title" id="exampleModalLabel">
                         @if(!isset($this->project->parent_id) || $this->project->parent_id == null)
                             @if(!isset($this->project->id) || $this->project->id == null)

@@ -10,7 +10,7 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                            <table class="table table-striped table-bordered table-hover table-checkable" id="project_list_table">
+                            <table class="table table-striped table-bordered table-hover table-checkable table-sm" id="project_list_table">
                                 <thead>
                                 <tr>
                                     <th scope="col" width="10px">#</th>
