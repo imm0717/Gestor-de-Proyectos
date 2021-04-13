@@ -1,6 +1,6 @@
 <table class="table table-striped table-bordered table-hover table-checkable mb-0  table-sm">
     <tbody>
-    @foreach($task_data->childs()->get() as $child)
+    @foreach($project_data->childs()->get() as $child)
         <tr>
             <td width="10px">{{ $loop->parent->iteration . "." . $loop->iteration  }}</td>
             <td>{{ $child->name  }}</td>
