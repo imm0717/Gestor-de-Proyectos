@@ -27,6 +27,24 @@ return [
                     'update-subproject' => 'Update Subproject'
                 ]
             ]
+        ],
+        'task' => [
+            'index' => [
+                'table' => [
+                    'header-name' => 'Name',
+                    'header-startdate' => 'Start Date',
+                    'header-enddate' => 'End Date'
+                ]
+            ],
+            'partials' => [
+                'form' => [
+                    'create' => 'New Task',
+                    'update' => 'Update Task',
+                    'create-subproject' => 'New Subtask',
+                    'update-subproject' => 'Update Subtask'
+                ]
+            ]
+
         ]
     ],
     'partials' => [

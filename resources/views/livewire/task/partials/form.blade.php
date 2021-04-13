@@ -4,7 +4,19 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="taskModalLabel">
-                    Create Task
+                    @if(!isset($this->task->parent_id) || $this->task->parent_id == null)
+                        @if(!isset($this->task->id) || $this->task->id == null)
+                            @lang('view.livewire.task.partials.form.create')
+                        @else
+                            @lang('view.livewire.task.partials.form.update')
+                        @endif
+                    @else
+                        @if(!isset($this->task->id) || $this->task->id == null)
+                            @lang('view.livewire.task.partials.form.create-subproject')
+                        @else
+                            @lang('view.livewire.task.partials.form.update-subproject')
+                        @endif
+                    @endif
                 </h5>
                 <button wire:click.prevent="$emitSelf('closeTaskModal')" type="button" class="close"
                         data-dismiss="modal"
@@ -13,7 +25,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                {{ json_encode($data) }}
                 <ul class="nav nav-tabs" id="langTab" role="tablist">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab-lang" role="tablist">
@@ -35,6 +46,11 @@
                                  id="nav-{{$locale}}"
                                  role="tabpanel" aria-labelledby="nav-{{$locale}}-tab">
                                 <div class="container pt-2">
+                                    @if(isset($data[$locale]['parent_name']) && $data[$locale]['parent_name'] != "")
+                                    <div class="form-group">
+                                        <h4 class="h4">{{ __('Parent Task') }}: {{ $data[$locale]['parent_name'] }}</h4>
+                                    </div>
+                                    @endif
                                     <div class="form-group">
                                         <label for="name">{{ __('Name') }}</label>
                                         <input type="text"

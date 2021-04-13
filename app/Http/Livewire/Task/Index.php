@@ -53,11 +53,26 @@ class Index extends Component
             $parent_task = Task::find($parent_id);
             $parent_translations = $parent_task->getTranslationsArray();
         }
-
         foreach (config('translatable.locales') as $locale) {
             $this->data[$locale]['name'] = '';
             $this->data[$locale]['description'] = '';
             $this->data[$locale]['parent_name'] = (isset($parent_translations[$locale]['name'])) ? $parent_translations[$locale]['name'] : '';
+        }
+    }
+
+    public function edit($id){
+        $this->task = Task::findOrFail($id);
+        $translations = $this->task->getTranslationsArray();
+        $task_parent = $this->task->parent;
+        if (isset($task_parent)){
+            $parent_translations = $this->task->parent->getTranslationsArray();
+        }
+
+        foreach (config('translatable.locales') as $locale){
+            $this->data[$locale]['name'] = $translations[$locale]['name'];
+            $this->data[$locale]['description'] = $translations[$locale]['description'];
+            if ( isset($task_parent) && count($parent_translations) > 0 )
+                $this->data[$locale]['parent_name'] = $parent_translations[$locale]['name'];
         }
     }
 
@@ -94,10 +109,19 @@ class Index extends Component
         $this->validateOnly('task.end_date');
     }
 
+    public function showDeleteConfirmationModal($id){
+        $this->task = Task::find($id);
+    }
+
+    public function delete(){
+        $this->task->delete();
+        $this->dispatchBrowserEvent('closeDeleteModal');
+    }
+
     public function render()
     {
         return view('livewire.task.index', [
-            'tasks' => Task::where('project_id', $this->project->id )->paginate($this->itemsPerPage)
+            'tasks' => Task::with('translations')->with('childs')->where('project_id', '=', $this->project->id, 'and' )->where('parent_id', null)->paginate($this->itemsPerPage)
         ]);
     }
 }

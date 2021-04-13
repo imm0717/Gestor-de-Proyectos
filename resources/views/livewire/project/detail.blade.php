@@ -5,8 +5,7 @@
                 <div class="card">
                     <div class="card-header">@lang('view.livewire.project.details.title')</div>
                     <div class="card-body">
-                        {{ $project->id }}
-                        <form>
+                        <form class="">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group row">
