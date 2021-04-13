@@ -10,7 +10,7 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                            <table class="table table-striped table-bordered table-hover table-checkable" id="project_list_table">
+                            <table class="table table-striped table-bordered table-hover table-checkable table-sm" id="project_list_table">
                                 <thead>
                                 <tr>
                                     <th scope="col" width="10px">#</th>
@@ -36,6 +36,7 @@
                                                     {{ __('Actions') }}
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="{{ route('project.detail', $project_data) }}">{{ __('Details') }}</a>
                                                     <a class="dropdown-item" href="#" wire:click="edit('{{$project_data['id']}}')" data-toggle="modal" data-target="#exampleModal">{{ __('Edit') }}</a>
                                                     <a class="dropdown-item" href="#" wire:click="resetForm('{{$project_data['id']}}')" data-toggle="modal" data-target="#exampleModal" >{{ __('Add Subproject') }}</a>
                                                     <a class="dropdown-item" href="#" wire:click="showDeleteConfirmationModal('{{$project_data['id']}}')" data-toggle="modal" data-target="#delete_modal">{{ __('Delete') }}</a>

@@ -12,5 +12,7 @@
   "Owner": "Responsable",
   "Select": "Seleccione",
   "Add Subproject": "Nuevo Subproyecto",
-  "Actions": "Acciones"
+  "Actions": "Acciones",
+  "Parent Project": "Proyecto Padre",
+  "Parent Task": "Tarea Padre"
 }
