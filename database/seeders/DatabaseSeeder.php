@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
             Team::factory()->create(['user_id' => $user->id]);
         })->create();
 
-        /*$this->call([
-            ProjectSeeder::class
-        ]);*/
+        $this->call([
+            PermissionSeeder::class
+        ]);
     }
 }

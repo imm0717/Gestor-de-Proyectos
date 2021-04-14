@@ -21,30 +21,34 @@
                                 {{ $member->name }}
                             </td>
                             <td>
-                                @if($editedMemberIndex != $index)
-                                  @php echo implode(" | ", json_decode($member->pivot->permission, true)); @endphp</td>
-                                @else
-                                <select class="form-control form-control-sm">
-                                      @foreach ( json_decode($member->pivot->permission, true) as $permission )
-                                      <option>{{ $permission }}</option>
-                                      @endforeach
-                                  </select>
-                                @endif
-                            <td width="40px">
-                                <div class="dropdown">
-                                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{ __('Actions') }}
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#"
-                                            wire:click="editPermissions({{ $index }})">{{ __('Permissions') }}</a>
-                                        <a class="dropdown-item" href="#"
-                                            wire:click="removeMember('{{ $member->pivot->id  }}')">{{ __('Delete') }}</a>
-                                    </div>
-                                </div>
+                                @if ($editedMemberIndex != $index)
+                                    @php echo implode(" | ", json_decode($member->pivot->permission, true)); @endphp
                             </td>
-                        </tr>
+                        @else
+                            <select class="form-control form-control-sm">
+                                @foreach (json_decode($member->pivot->permission, true) as $permission)
+                                    <option>{{ $permission }}</option>
+                                @endforeach
+                            </select>
+                    @endif
+                    <td width="100px">
+                        @if ($editedMemberIndex != $index)
+                            <a class="btn btn-primary" wire:click="editPermissions({{ $index }})" href="#"
+                                aria-label="Edit Permission">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </a>
+                        @else
+                            <a class="btn btn-primary" wire:click="savePermission()" href="#"
+                                aria-label="Save Permission">
+                                <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                            </a>
+                        @endif
+                        <a class="btn btn-danger" wire:click="removeMember('{{ $member->pivot->id }}')" href="#"
+                            aria-label="Delete">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>

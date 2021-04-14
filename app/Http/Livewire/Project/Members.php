@@ -40,6 +40,10 @@ class Members extends Component
         $this->editedMemberIndex = $index;
     }
 
+    public function savePermission(){
+        $this->editedMemberIndex = -1;
+    }
+
     public function mount()
     {
         $this->members = $this->getMembers();
