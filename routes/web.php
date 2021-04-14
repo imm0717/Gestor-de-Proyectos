@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +32,8 @@ Route::group(['middleware' => 'auth'], function(){
 
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects');
     Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('project.detail');
+
+    Route::get('/tasks', [TaskController::class, 'index'])->name('tasks');
 });
 
 
