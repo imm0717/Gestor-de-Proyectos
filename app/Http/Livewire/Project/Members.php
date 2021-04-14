@@ -9,6 +9,7 @@ use Livewire\Component;
 class Members extends Component
 {
     public $project;
+    public $editedMemberIndex = -1;
 
     protected $listeners = [
         'addUserAsMember' => 'addMember'
@@ -19,16 +20,13 @@ class Members extends Component
         return $this->project->members;
     }
 
-    /* private function getUsers(){
-        $this->users = User::all()->diff($this->getMembers());
-    } */
-
     public function addMember($user_id)
     {
         if (isset($user_id)) {
             $user = User::find($user_id);
-            $this->project->members()->save($user);
+            $this->project->members()->save($user, ['permission' => json_encode(array('0' => 'all', '1'=>'add-task'))]);
             $this->project->refresh();
+            $this->editedMemberIndex = -1;
         }
     }
 
@@ -36,6 +34,10 @@ class Members extends Component
         $member = ProjectMember::findOrFail($id);
         $member->delete();
         $this->project->refresh();
+    }
+
+    public function editPermissions($index){
+        $this->editedMemberIndex = $index;
     }
 
     public function mount()
