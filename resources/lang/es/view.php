@@ -34,7 +34,8 @@ return [
                     'header-name' => 'Nombre',
                     'header-startdate' => 'Inicio',
                     'header-enddate' => 'Conclución'
-                ]
+                ],
+                'title' => 'Tareas y Subtareas'
             ],
             'partials' => [
                 'form' => [

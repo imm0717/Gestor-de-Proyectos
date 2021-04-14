@@ -9,10 +9,13 @@
                 <th scope="col" width="80px">@lang('view.livewire.task.index.table.header-enddate')</th>
                 <th scope="col" width="130px">
                     <!-- Button trigger modal -->
-                    <button type="button" wire:click="resetForm" class="btn btn-primary btn-sm" data-toggle="modal"
-                        data-target="#taskModal">
-                        {{ __('New') }}
-                    </button>
+                    @if (isset($project))
+                        <button type="button" wire:click="resetForm" class="btn btn-primary btn-sm" data-toggle="modal"
+                            data-target="#taskModal">
+                            {{ __('New') }}
+                        </button>
+                    @endif
+
                 </th>
             </tr>
         </thead>
@@ -30,10 +33,12 @@
                                 {{ __('Actions') }}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#" wire:click="edit('{{ $task_data['id'] }}')"
-                                    data-toggle="modal" data-target="#taskModal">{{ __('Edit') }}</a>
-                                <a class="dropdown-item" href="#" wire:click="resetForm('{{ $task_data['id'] }}')"
-                                    data-toggle="modal" data-target="#taskModal">{{ __('Add Subtask') }}</a>
+                                @if (isset($project))
+                                    <a class="dropdown-item" href="#" wire:click="edit('{{ $task_data['id'] }}')"
+                                        data-toggle="modal" data-target="#taskModal">{{ __('Edit') }}</a>
+                                    <a class="dropdown-item" href="#" wire:click="resetForm('{{ $task_data['id'] }}')"
+                                        data-toggle="modal" data-target="#taskModal">{{ __('Add Subtask') }}</a>
+                                @endif
                                 <a class="dropdown-item" href="#"
                                     wire:click="showDeleteConfirmationModal('{{ $task_data['id'] }}')"
                                     data-toggle="modal" data-target="#delete_modal">{{ __('Delete') }}</a>

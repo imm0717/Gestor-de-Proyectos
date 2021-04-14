@@ -63,7 +63,7 @@
                                     <a wire:ignore class="nav-item nav-link font-weight-bold" id="nav-collaborators-tab"
                                        data-toggle="tab" href="#nav-collaborators" role="tab"
                                        aria-controls="nav-collaborators"
-                                       aria-selected="true">{{ ucfirst(__('Collaborators')) }}</a>
+                                       aria-selected="true">{{ ucfirst(__('Members')) }}</a>
                                     <a wire:ignore class="nav-item nav-link font-weight-bold" id="nav-files-tab"
                                        data-toggle="tab" href="#nav-files" role="tab"
                                        aria-controls="nav-files"
@@ -87,7 +87,7 @@
                             <div wire:ignore.self class="tab-pane fade border show" id="nav-collaborators"
                                  role="tabpanel" aria-labelledby="nav-collaborators-tab">
                                 <div class="container pt-2">
-                                    Collaborators
+                                    <livewire:project.members :project="$project"/>
                                 </div>
                             </div>
                             <div wire:ignore.self class="tab-pane fade border show" id="nav-files"

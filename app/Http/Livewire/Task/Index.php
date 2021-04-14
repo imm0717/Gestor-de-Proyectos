@@ -118,10 +118,22 @@ class Index extends Component
         $this->dispatchBrowserEvent('closeDeleteModal');
     }
 
+    public function getTasks(){
+        if ($this->project == null){
+            return Task::with('translations')->with('childs')->where('parent_id', null)->paginate($this->itemsPerPage);
+        }else{
+            return Task::with('translations')->with('childs')->where('project_id', '=', $this->project->id, 'and' )->where('parent_id', null)->paginate($this->itemsPerPage);
+        }
+    }
+
+    public function mount($project){
+        $this->project = $project;
+    }
+
     public function render()
     {
         return view('livewire.task.index', [
-            'tasks' => Task::with('translations')->with('childs')->where('project_id', '=', $this->project->id, 'and' )->where('parent_id', null)->paginate($this->itemsPerPage)
+            'tasks' => $this->getTasks()
         ]);
     }
 }

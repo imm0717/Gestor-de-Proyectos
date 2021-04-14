@@ -59,4 +59,8 @@ class User extends Authenticatable
     public function projectsOwner(){
         return $this->hasMany("App\Models\Project");
     }
+
+    public function projects(){
+        return $this->belongsToMany("App\Models\Project", 'project_members', 'user_id', 'project_id','id', 'id');
+    }
 }
