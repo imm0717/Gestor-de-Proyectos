@@ -93,7 +93,7 @@
                             <div wire:ignore.self class="tab-pane fade border show" id="nav-files"
                                  role="tabpanel" aria-labelledby="nav-files-tab">
                                 <div class="container pt-2">
-                                    Files
+                                    <livewire:partials.attachment/>
                                 </div>
                             </div>
                         </div>

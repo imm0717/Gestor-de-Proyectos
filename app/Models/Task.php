@@ -50,4 +50,8 @@ class Task extends Model implements TranslatableContract
     public function responsable(){
         return $this->belongsTo("App\Models\User");
     }
+
+    public function attachments(){
+        return $this->morphMany('App\Models\Attachment', 'attachmentable');
+    }
 }

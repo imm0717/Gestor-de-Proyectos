@@ -56,4 +56,8 @@ class Project extends Model implements TranslatableContract
     public function members(){
         return $this->belongsToMany('App\Models\User', 'project_members', 'project_id', 'user_id', 'id', 'id' )->withPivot('id', 'permission');
     }
+
+    public function attachments(){
+        return $this->morphMany('App\Models\Attachment', 'attachmentable');
+    }
 }

@@ -123,8 +123,10 @@
     <script
         src="{{ asset('vendor/general/Date-Time-Picker-Bootstrap-4/build/js/bootstrap-datetimepicker.min.js') }}">
     </script>
-    @stack('scripts')
+    
     @livewireScripts
+    @stack('scripts')
+    
 </body>
 
 </html>
