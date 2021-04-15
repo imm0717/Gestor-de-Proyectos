@@ -6,11 +6,14 @@ use App\Models\Task;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
+    use WithPagination;
+
     public $project;
-    private $itemsPerPage = 10;
+    private $itemsPerPage = 4;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['selectEndDate', 'selectStartDate'];
 
@@ -49,8 +52,8 @@ class Index extends Component
         $this->task->project_id = (isset($this->project->id))? $this->project->id : null;
         $this->task->parent_id = $parent_id;
         $this->task->created_by_id = auth()->id();
-        /* $this->task->start_date = Carbon::now()->format('d-m-Y');
-        $this->task->end_date = Carbon::now()->addDay()->format('d-m-Y'); */
+        $this->task->start_date = Carbon::now()->format('d-m-Y');
+        $this->task->end_date = Carbon::now()->addDay()->format('d-m-Y');
 
         if (isset($parent_id)){
             $parent_task = Task::find($parent_id);

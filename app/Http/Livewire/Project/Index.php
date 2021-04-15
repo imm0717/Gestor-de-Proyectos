@@ -13,7 +13,7 @@ class Index extends Component
 {
     use WithPagination;
 
-    private $itemsPerPage = 10;
+    private $itemsPerPage = 4;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['selectEndDate', 'selectStartDate'];
 
@@ -50,8 +50,8 @@ class Index extends Component
         $this->project = new Project();
         $this->project->parent_id = $parent_id;
         $this->project->created_by_id = auth()->id();
-        /* $this->project->start_date = Carbon::now()->format('d-m-Y');
-        $this->project->end_date = Carbon::now()->addDay()->format('d-m-Y'); */
+        $this->project->start_date = Carbon::now()->format('d-m-Y');
+        $this->project->end_date = Carbon::now()->addDay()->format('d-m-Y');
 
         if (isset($parent_id)){
             $parent_project = Project::find($parent_id);
