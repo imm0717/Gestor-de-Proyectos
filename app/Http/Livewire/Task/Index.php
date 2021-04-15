@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Task;
 
 use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Livewire\Component;
 
@@ -48,6 +49,8 @@ class Index extends Component
         $this->task->project_id = (isset($this->project->id))? $this->project->id : null;
         $this->task->parent_id = $parent_id;
         $this->task->created_by_id = auth()->id();
+        /* $this->task->start_date = Carbon::now()->format('d-m-Y');
+        $this->task->end_date = Carbon::now()->addDay()->format('d-m-Y'); */
 
         if (isset($parent_id)){
             $parent_task = Task::find($parent_id);

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Project;
 
 use App\Models\Project;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -49,6 +50,8 @@ class Index extends Component
         $this->project = new Project();
         $this->project->parent_id = $parent_id;
         $this->project->created_by_id = auth()->id();
+        /* $this->project->start_date = Carbon::now()->format('d-m-Y');
+        $this->project->end_date = Carbon::now()->addDay()->format('d-m-Y'); */
 
         if (isset($parent_id)){
             $parent_project = Project::find($parent_id);

@@ -17,8 +17,13 @@ return [
                 'title' => 'Proyectos y Subproyectos'
             ],
             'details' => [
-                'title' => 'Detalles del Proyecto'
+                'title' => 'Detalles del Proyecto',
+                'description_tab' => 'Descripción',
+                'tasks_tab' => 'Tareas',
+                'members_tab' => 'Miembros',
+                'files_tab' => 'Adjuntos',
             ],
+
             'partials' => [
                 'form' => [
                     'create' => 'Nuevo Proyecto',

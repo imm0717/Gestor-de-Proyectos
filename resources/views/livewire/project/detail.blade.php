@@ -55,19 +55,19 @@
                                        id="nav-description-tab"
                                        data-toggle="tab" href="#nav-description" role="tab"
                                        aria-controls="nav-description"
-                                       aria-selected="true">{{ ucfirst(__('Description')) }}</a>
+                                       aria-selected="true">@lang('view.livewire.project.details.description_tab')</a>
                                     <a wire:ignore class="nav-item nav-link font-weight-bold" id="nav-tasks-tab"
                                        data-toggle="tab" href="#nav-tasks" role="tab"
                                        aria-controls="nav-tasks"
-                                       aria-selected="true">{{ ucfirst(__('Tasks')) }}</a>
+                                       aria-selected="true">@lang('view.livewire.project.details.tasks_tab')</a>
                                     <a wire:ignore class="nav-item nav-link font-weight-bold" id="nav-collaborators-tab"
                                        data-toggle="tab" href="#nav-collaborators" role="tab"
                                        aria-controls="nav-collaborators"
-                                       aria-selected="true">{{ ucfirst(__('Members')) }}</a>
+                                       aria-selected="true">@lang('view.livewire.project.details.members_tab')</a>
                                     <a wire:ignore class="nav-item nav-link font-weight-bold" id="nav-files-tab"
                                        data-toggle="tab" href="#nav-files" role="tab"
                                        aria-controls="nav-files"
-                                       aria-selected="true">{{ ucfirst(__('Files')) }}</a>
+                                       aria-selected="true">@lang('view.livewire.project.details.files_tab')</a>
                                 </div>
                             </nav>
                         </ul>
