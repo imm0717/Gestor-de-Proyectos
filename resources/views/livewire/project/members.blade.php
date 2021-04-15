@@ -22,24 +22,25 @@
                             </td>
                             <td>
                                 @if ($editedMemberIndex != $index)
-                                    @php echo implode(" | ", json_decode($member->pivot->permission, true)); @endphp
+                                    @php echo implode(", ", json_decode($member->pivot->permission, true)); @endphp
                             </td>
                         @else
-                            <select class="form-control form-control-sm">
-                                @foreach (json_decode($member->pivot->permission, true) as $permission)
-                                    <option>{{ $permission }}</option>
+                            <select class="form-control form-control-sm selectpicker" multiple wire:model="selected">
+                                @foreach ($permissions as $permission)
+                                    <option>{{ $permission->permission }}</option>
                                 @endforeach
                             </select>
                     @endif
                     <td width="100px">
                         @if ($editedMemberIndex != $index)
-                            <a class="btn btn-primary" wire:click="editPermissions({{ $index }})" href="#"
-                                aria-label="Edit Permission">
+                            <a class="btn btn-primary"
+                                wire:click="editPermissions({{ $index }}, '{{ $member->pivot->permission }}')"
+                                href="#" aria-label="Edit Permission">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             </a>
                         @else
-                            <a class="btn btn-primary" wire:click="savePermission()" href="#"
-                                aria-label="Save Permission">
+                            <a class="btn btn-primary" wire:click="savePermission({{ $member->pivot->user_id }})"
+                                href="#" aria-label="Save Permission">
                                 <i class="fa fa-floppy-o" aria-hidden="true"></i>
                             </a>
                         @endif
@@ -58,8 +59,15 @@
 
 @push('scripts')
     <script type="text/javascript">
+        window.addEventListener('initSelect', function(event) {
+            $('.selectpicker').selectpicker('show');
+        })
+
+        window.addEventListener('selectPicker', function(event) {
+            $('.selectpicker').selectpicker('val', JSON.parse(event.detail.values));
+        })
+
         $('#members-user-list').on('change', function(e) {
-            console.log($(e.target).val())
             Livewire.emit('addUserAsMember', $(e.target).val())
         })
 
