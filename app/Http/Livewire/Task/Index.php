@@ -45,7 +45,7 @@ class Index extends Component
     public function resetForm($parent_id = null){
         $this->resetValidation();
         $this->task = new Task();
-        $this->task->project_id = $this->project->id;
+        $this->task->project_id = (isset($this->project->id))? $this->project->id : null;
         $this->task->parent_id = $parent_id;
         $this->task->created_by_id = auth()->id();
 

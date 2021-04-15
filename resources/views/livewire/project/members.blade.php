@@ -15,23 +15,41 @@
             <label for="">Members & Permissions</label>
             <table class="table table-striped table-bordered table-hover table-checkable table-sm">
                 <tbody>
-                    @foreach ($members as $member)
+                    @foreach ($members as $index => $member)
                         <tr>
-                            <td>{{ $member->name }}</td>
-                            <td>{{ $member->pivot->id }}</td>
-                            <td width="40px">
-                                <div class="dropdown">
-                                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{ __('Actions') }}
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#"
-                                            wire:click="removeMember('{{ $member->pivot->id  }}')">{{ __('Delete') }}</a>
-                                    </div>
-                                </div>
+                            <td>
+                                {{ $member->name }}
                             </td>
-                        </tr>
+                            <td>
+                                @if ($editedMemberIndex != $index)
+                                    @php echo implode(", ", json_decode($member->pivot->permission, true)); @endphp
+                            </td>
+                        @else
+                            <select class="form-control form-control-sm selectpicker" multiple wire:model="selected">
+                                @foreach ($permissions as $permission)
+                                    <option>{{ $permission->permission }}</option>
+                                @endforeach
+                            </select>
+                    @endif
+                    <td width="100px">
+                        @if ($editedMemberIndex != $index)
+                            <a class="btn btn-primary"
+                                wire:click="editPermissions({{ $index }}, '{{ $member->pivot->permission }}')"
+                                href="#" aria-label="Edit Permission">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </a>
+                        @else
+                            <a class="btn btn-primary" wire:click="savePermission({{ $member->pivot->user_id }})"
+                                href="#" aria-label="Save Permission">
+                                <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                            </a>
+                        @endif
+                        <a class="btn btn-danger" wire:click="removeMember('{{ $member->pivot->id }}')" href="#"
+                            aria-label="Delete">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
@@ -41,8 +59,15 @@
 
 @push('scripts')
     <script type="text/javascript">
+        window.addEventListener('initSelect', function(event) {
+            $('.selectpicker').selectpicker('show');
+        })
+
+        window.addEventListener('selectPicker', function(event) {
+            $('.selectpicker').selectpicker('val', JSON.parse(event.detail.values));
+        })
+
         $('#members-user-list').on('change', function(e) {
-            console.log($(e.target).val())
             Livewire.emit('addUserAsMember', $(e.target).val())
         })
 

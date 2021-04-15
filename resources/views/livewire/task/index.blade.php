@@ -33,9 +33,10 @@
                                 {{ __('Actions') }}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                                <a class="dropdown-item" href="#" wire:click="edit('{{ $task_data['id'] }}')"
+                                    data-toggle="modal" data-target="#taskModal">{{ __('Edit') }}</a>
                                 @if (isset($project))
-                                    <a class="dropdown-item" href="#" wire:click="edit('{{ $task_data['id'] }}')"
-                                        data-toggle="modal" data-target="#taskModal">{{ __('Edit') }}</a>
                                     <a class="dropdown-item" href="#" wire:click="resetForm('{{ $task_data['id'] }}')"
                                         data-toggle="modal" data-target="#taskModal">{{ __('Add Subtask') }}</a>
                                 @endif

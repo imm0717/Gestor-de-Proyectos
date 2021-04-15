@@ -18,9 +18,9 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    {{-- <link href="{{ mix('css/custom.css') }}" rel="stylesheet"> --}}
-    {{-- <link href="{{ asset('vendor/general/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css') }}" rel="stylesheet"> --}}
     <link href="{{ asset('vendor/general/Date-Time-Picker-Bootstrap-4/build/css/bootstrap-datetimepicker.css') }}"
+        rel="stylesheet">
+    <link href="{{ asset('vendor/general/bootstrap-select-1.13.0-dev/dist/css/bootstrap-select.min.css') }}"
         rel="stylesheet">
     @livewireStyles
     @stack('styles')
@@ -50,16 +50,10 @@
                                         href="{{ route('home') }}">{{ __('Dashboard') }}</a>
                                 </li>
                             @endif
-                            @if (Route::has('teams'))
-                                <li class="nav-item">
-                                    <a class="nav-link {{ \Illuminate\Support\Facades\Route::current()->getName() == 'teams' ? 'active' : '' }}"
-                                        href="{{ route('teams') }}">{{ __('Teams') }}</a>
-                                </li>
-                            @endif
                             @if (Route::has('projects'))
                                 <li class="nav-item">
                                     <a class="nav-link {{ \Illuminate\Support\Facades\Route::current()->getName() == 'projects' ? 'active' : '' }}"
-                                        href="{{ route('projects') }}">{{ __('Projects') }}</a>
+                                        href="{{ route('projects') }}">{{ __('My Projects') }}</a>
                                 </li>
                             @endif
                             @if (Route::has('tasks'))
@@ -95,7 +89,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();">
+                                                                     document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
@@ -116,7 +110,16 @@
     </div>
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}"></script>
-    {{-- <script src="{{ asset('vendor/general/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js') }}"></script> --}}
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="{{ asset('vendor/general/bootstrap-select-1.13.0-dev/dist/js/bootstrap-select.min.js') }}">
+    </script>
+
+    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+    <script
+        src="{{ asset('vendor/general/bootstrap-select-1.13.0-dev/dist/js/i18n/defaults-es_ES.min.js') }}">
+    </script>
+
     <script
         src="{{ asset('vendor/general/Date-Time-Picker-Bootstrap-4/build/js/bootstrap-datetimepicker.min.js') }}">
     </script>
