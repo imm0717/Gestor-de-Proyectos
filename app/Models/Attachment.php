@@ -9,6 +9,8 @@ class Attachment extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['file_path', 'extension'];
+
     public function attachmentable(){
         $this->morphTo();
     }
