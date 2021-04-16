@@ -24,6 +24,14 @@ class Members extends Component
         return $this->project->members;
     }
 
+    private function getUsers(){
+        if (isset($this->project->parent)){
+            return $this->project->parent->members->diff($this->getMembers());
+        }else{
+            return User::all()->diff($this->getMembers());
+        }
+    }
+
     public function updatedSelected($value){
         $this->dispatchBrowserEvent('initSelect', $value);
     }
@@ -59,7 +67,6 @@ class Members extends Component
 
     public function mount()
     {
-        $this->members = $this->getMembers();
         $this->permissions = Permission::all();
     }
 
@@ -67,7 +74,7 @@ class Members extends Component
     {
         return view('livewire.project.members', [
             'members' => $this->getMembers(),
-            'users' => User::all()->diff($this->getMembers())
+            'users' => $this->getUsers()
         ]);
     }
 }

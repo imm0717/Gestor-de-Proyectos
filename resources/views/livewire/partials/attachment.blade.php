@@ -7,7 +7,7 @@
                     {{ $message }}
                 </div>
             @enderror
-            <button class="btn btn-primary btn-sm" type="submit" title="Upload" @if (!isset($file)) disabled @enderror><i class="fa fa-upload" aria-hidden="true"></i></button>
+            <button class="btn btn-primary btn-sm" type="submit" title="Upload" @if (!isset($file)) disabled @endif><i class="fa fa-upload" aria-hidden="true"></i></button>
         </div>
     </form>
     <div class="d-flex align-items-start flex-row bd-highlight mb-3 flex-wrap">

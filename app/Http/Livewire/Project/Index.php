@@ -125,7 +125,7 @@ class Index extends Component
 
     public function render(){
         return view('livewire.project.index', [
-            'projects' => Project::with('translations')->with('childs')->where('parent_id', null)->paginate($this->itemsPerPage),
+            'projects' => Project::with('translations')->with('childs')->with('owner')->with('creator')->with('members')->where('parent_id', null)->paginate($this->itemsPerPage),
             'users' => User::all(),
             'locales' => config('translatable.locales'),
             'default_locale' => config('app.locale')

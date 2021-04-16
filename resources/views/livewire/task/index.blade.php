@@ -10,10 +10,13 @@
                 <th scope="col" width="130px">
                     <!-- Button trigger modal -->
                     @if (isset($project))
-                        <button type="button" wire:click="resetForm" class="btn btn-primary btn-sm" data-toggle="modal"
+                      @can('add-task', $project)
+                      <button type="button" wire:click="resetForm" class="btn btn-primary btn-sm" data-toggle="modal"
                             data-target="#taskModal">
                             {{ __('New') }}
                         </button>
+                      @endcan
+                        
                     @endif
 
                 </th>
@@ -33,16 +36,21 @@
                                 {{ __('Actions') }}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
+                                @can('edit-task', $project)
                                 <a class="dropdown-item" href="#" wire:click="edit('{{ $task_data['id'] }}')"
                                     data-toggle="modal" data-target="#taskModal">{{ __('Edit') }}</a>
+                                @endcan
                                 @if (isset($project))
+                                @can('add-subtask', $project)
                                     <a class="dropdown-item" href="#" wire:click="resetForm('{{ $task_data['id'] }}')"
                                         data-toggle="modal" data-target="#taskModal">{{ __('Add Subtask') }}</a>
+                                        @endcan
                                 @endif
+                                @can('delete-task', $project)
                                 <a class="dropdown-item" href="#"
                                     wire:click="showDeleteConfirmationModal('{{ $task_data['id'] }}')"
                                     data-toggle="modal" data-target="#delete_modal">{{ __('Delete') }}</a>
+                                @endcan
                             </div>
                         </div>
                     </td>

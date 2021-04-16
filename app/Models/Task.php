@@ -50,8 +50,31 @@ class Task extends Model implements TranslatableContract
     public function responsable(){
         return $this->belongsTo("App\Models\User");
     }
+    public function creator()
+    {
+        return $this->belongsTo("App\Models\User", 'created_by_id', 'id');
+    }
+
+    public function collaborators()
+    {
+        return $this->belongsToMany('App\Models\User', 'task_collaborators', 'task_id', 'user_id', 'id', 'id')->withPivot('id', 'permission');
+    }
 
     public function attachments(){
         return $this->morphMany('App\Models\Attachment', 'attachmentable');
+    }
+
+    public function findIfCollaboratorHasPermission($collaborator_id, $permission = "all")
+    {
+        $collaborator = $this->collaborators()->where('users.id', $collaborator_id)->first();
+
+        if (isset($collaborator)) {
+            $permissions = $collaborator->pivot->permission;
+            if (isset($permissions)) {
+                if (in_array($permission, json_decode($permissions)))
+                    return true;
+            }
+        }
+        return false;
     }
 }

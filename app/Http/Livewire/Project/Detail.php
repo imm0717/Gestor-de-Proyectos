@@ -16,6 +16,14 @@ class Detail extends Component
         ];
     protected $listeners = ['setOwner'];
 
+    private function getUsers(){
+        if (isset($this->project->parent)){
+            return $this->project->parent->members;
+        }else{
+            return User::all();
+        }
+    }
+
     public function setOwner($id){
         $project = Project::find($this->project->id);
         $project->owner_id = ($id != "") ? $id : null;
@@ -29,7 +37,7 @@ class Detail extends Component
     public function render()
     {
         return view('livewire.project.detail', [
-            'users' => User::all(),
+            'users' => $this->getUsers(),
             'default_locale' => config('app.locale')
         ]);
     }

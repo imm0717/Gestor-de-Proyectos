@@ -22,7 +22,6 @@ class Attachment extends Component
         'xlsx' => 'fa fa-file-excel-o',
         'rar' => 'fa fa-file-archive-o',
         'zip' => 'fa fa-file-zip-o',
-
     ];
     
     public function save()

@@ -11,8 +11,13 @@
                         {{ __('Actions') }}
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{ route('project.detail', $child) }}">{{ __('Details') }}</a>
+                        @can('edit-project', $child)
                         <a class="dropdown-item" href="#" wire:click="edit('{{$child['id']}}')" data-toggle="modal" data-target="#exampleModal">{{ __('Edit') }}</a>
+                        @endcan
+                        @can('delete-project', $child)
                         <a class="dropdown-item" href="#" wire:click="showDeleteConfirmationModal('{{$child['id']}}')" data-toggle="modal" data-target="#delete_modal">{{ __('Delete') }}</a>
+                        @endcan
                     </div>
                 </div>
             </td>

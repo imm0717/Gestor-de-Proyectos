@@ -8,6 +8,15 @@
                         <form class="">
                             <div class="row">
                                 <div class="col-6">
+                                    @if(isset($project->parent))
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label font-weight-bold">{{ __('Parent Project') }}
+                                            :</label>
+                                        <div class="col-sm-8">
+                                            <a class="form-control-plaintext" href="{{ route('project.detail', $project->parent) }}">{{ $project->parent->translate($default_locale)->name }}</a>
+                                        </div>
+                                    </div>
+                                    @endif
                                     <div class="form-group row">
                                         <label class="col-sm-4 col-form-label font-weight-bold">{{ __('Name') }}
                                             :</label>
