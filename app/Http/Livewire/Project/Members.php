@@ -16,7 +16,9 @@ class Members extends Component
 
     protected $listeners = [
         'addUserAsMember' => 'addMember',
+        'ownerChanged' => 'ownerChangedHandler',
         'savePermission'
+        
     ];
 
     private function getMembers()
@@ -24,15 +26,24 @@ class Members extends Component
         return $this->project->members;
     }
 
-    private function getUsers(){
-        if (isset($this->project->parent)){
-            return $this->project->parent->members->diff($this->getMembers());
-        }else{
-            return User::all()->diff($this->getMembers());
+    private function getUsers()
+    {
+
+        $actual_members = $this->getMembers()->all();
+
+        if (isset($this->project->owner)) {
+            array_push($actual_members, $this->project->owner);
+        }
+
+        if (isset($this->project->parent)) {
+            return $this->project->parent->members->diff($actual_members);
+        } else {
+            return User::all()->diff($actual_members);
         }
     }
 
-    public function updatedSelected($value){
+    public function updatedSelected($value)
+    {
         $this->dispatchBrowserEvent('initSelect', $value);
     }
 
@@ -46,23 +57,31 @@ class Members extends Component
         }
     }
 
-    public function removeMember($id){
+    public function removeMember($id)
+    {
         $member = ProjectMember::findOrFail($id);
         $member->delete();
         $this->project->refresh();
     }
 
-    public function editPermissions($index, $values){
+    public function editPermissions($index, $values)
+    {
         $this->editedMemberIndex = $index;
         $this->dispatchBrowserEvent('selectPicker', ['values' => $values]);
     }
 
-    public function savePermission($user_id){
+    public function savePermission($user_id)
+    {
         if (isset($user_id)) {
             $this->project->members()->updateExistingPivot($user_id, ['permission' => $this->selected]);
             $this->project->refresh();
             $this->editedMemberIndex = -1;
         }
+    }
+
+    public function ownerChangedHandler()
+    {
+        $this->getUsers();
     }
 
     public function mount()

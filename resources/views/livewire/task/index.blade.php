@@ -36,6 +36,7 @@
                                 {{ __('Actions') }}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{{ route('task.detail', $task_data->id) }}">{{ __('Details') }}</a>
                                 @can('edit-task', $project)
                                 <a class="dropdown-item" href="#" wire:click="edit('{{ $task_data['id'] }}')"
                                     data-toggle="modal" data-target="#taskModal">{{ __('Edit') }}</a>

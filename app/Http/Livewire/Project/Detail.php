@@ -10,28 +10,36 @@ use Livewire\Component;
 class Detail extends Component
 {
     public $project;
+    public $owner;
 
     protected $rules = [
-        'project.owner_id' => 'nullable'
-        ];
-    protected $listeners = ['setOwner'];
+        'owner' => 'nullable'
+    ];
 
-    private function getUsers(){
-        if (isset($this->project->parent)){
+    private function getUsers()
+    {
+        if (isset($this->project->parent)) {
             return $this->project->parent->members;
-        }else{
+        } else {
             return User::all();
         }
     }
 
-    public function setOwner($id){
-        $project = Project::find($this->project->id);
-        $project->owner_id = ($id != "") ? $id : null;
-        try{
-            $project->save();
-        }catch (QueryException $e){
-            session()->flash('message','Error');
+    public function updatedOwner($owner_id)
+    {
+        $this->project->owner_id = ($owner_id != "") ? $owner_id : null;
+        try {
+            $this->project->save();
+            $this->project->refresh();
+            $this->emit('ownerChanged');
+        } catch (QueryException $e) {
+            session()->flash('message', 'Error');
         }
+    }
+
+    public function mount()
+    {
+        $this->owner = $this->project->owner_id;
     }
 
     public function render()

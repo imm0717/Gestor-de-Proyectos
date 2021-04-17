@@ -17,7 +17,11 @@ return [
                 'title' => 'Projects & Child Projects'
             ],
             'details' => [
-                'title' => 'Project Details'
+                'title' => 'Project Details',
+                'description_tab' => 'Description',
+                'tasks_tab' => 'Tasks',
+                'members_tab' => 'Members',
+                'files_tab' => 'Attached Files',
             ],
             'partials' => [
                 'form' => [
@@ -34,7 +38,15 @@ return [
                     'header-name' => 'Name',
                     'header-startdate' => 'Start Date',
                     'header-enddate' => 'End Date'
-                ]
+                ],
+                'title' => 'Tasks & Subtasks'
+            ],
+            'details' => [
+                'title' => 'Task Details',
+                'description_tab' => 'Description',
+                'tasks_tab' => 'Subtasks',
+                'members_tab' => 'Collaborators',
+                'files_tab' => 'Attached Files',
             ],
             'partials' => [
                 'form' => [
