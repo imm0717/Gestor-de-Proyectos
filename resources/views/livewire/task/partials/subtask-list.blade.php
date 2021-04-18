@@ -6,7 +6,7 @@
             <td>{{ $child->name  }}</td>
             <td width="80px">{{ $child->start_date }}</td>
             <td width="80px">{{ $child->end_date }}</td>
-            <td width="130px">
+            <td width="80px">
                 <div class="dropdown">
                     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ __('Actions') }}

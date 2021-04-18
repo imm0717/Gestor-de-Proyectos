@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Project;
 
-use App\Models\Project;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Livewire\Component;
@@ -10,26 +9,42 @@ use Livewire\Component;
 class Detail extends Component
 {
     public $project;
+    public $owner;
 
     protected $rules = [
-        'project.owner_id' => 'nullable'
-        ];
-    protected $listeners = ['setOwner'];
+        'owner' => 'nullable'
+    ];
 
-    public function setOwner($id){
-        $project = Project::find($this->project->id);
-        $project->owner_id = ($id != "") ? $id : null;
-        try{
-            $project->save();
-        }catch (QueryException $e){
-            session()->flash('message','Error');
+    private function getUsers()
+    {
+        if (isset($this->project->parent)) {
+            return $this->project->parent->members;
+        } else {
+            return User::all();
         }
+    }
+
+    public function updatedOwner($owner_id)
+    {
+        $this->project->owner_id = ($owner_id != "") ? $owner_id : null;
+        try {
+            $this->project->save();
+            $this->project->refresh();
+            $this->emit('ownerChanged');
+        } catch (QueryException $e) {
+            session()->flash('message', 'Error');
+        }
+    }
+
+    public function mount()
+    {
+        $this->owner = $this->project->owner_id;
     }
 
     public function render()
     {
         return view('livewire.project.detail', [
-            'users' => User::all(),
+            'users' => $this->getUsers(),
             'default_locale' => config('app.locale')
         ]);
     }

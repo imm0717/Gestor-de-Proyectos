@@ -10,7 +10,7 @@
                             <div class="card">
                                 <div class="card-header">@lang('view.livewire.task.index.title')</div>
                                 <div class="card-body">
-                                    <livewire:task.index :project="null" />
+                                    <livewire:task.index :project="null" :parent="null" />
                                 </div>
                             </div>
                         </div>

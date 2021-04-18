@@ -35,6 +35,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('project.detail');
 
     Route::get('/tasks', [TaskController::class, 'index'])->name('tasks');
+    Route::get('/tasks/{task}', [TaskController::class, 'show'])->name('task.detail');
 });
 
 

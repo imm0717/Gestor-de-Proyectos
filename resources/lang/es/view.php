@@ -21,7 +21,7 @@ return [
                 'description_tab' => 'Descripción',
                 'tasks_tab' => 'Tareas',
                 'members_tab' => 'Miembros',
-                'files_tab' => 'Adjuntos',
+                'files_tab' => 'Ficheros Adjuntos',
             ],
 
             'partials' => [
@@ -37,10 +37,18 @@ return [
             'index' => [
                 'table' => [
                     'header-name' => 'Nombre',
+                    'header-project' => 'Proyecto',
                     'header-startdate' => 'Inicio',
                     'header-enddate' => 'Conclución'
                 ],
                 'title' => 'Tareas y Subtareas'
+            ],
+            'details' => [
+                'title' => 'Detalles de la Tarea',
+                'description_tab' => 'Descripción',
+                'tasks_tab' => 'Subtareas',
+                'members_tab' => 'Colaboradores',
+                'files_tab' => 'Ficheros Adjuntos',
             ],
             'partials' => [
                 'form' => [
