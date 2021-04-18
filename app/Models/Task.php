@@ -39,6 +39,10 @@ class Task extends Model implements TranslatableContract
         return (isset($value)) ? Carbon::createFromFormat('Y-m-d', $value)->format('d-m-Y') : $value;
     }
 
+    public function project(){
+        return $this->belongsTo("App\Models\Project");
+    }
+
     public function parent(){
         return $this->belongsTo("App\Models\Task", "parent_id")->where('parent_id', '=', null)->with('translations');
     }
@@ -47,7 +51,7 @@ class Task extends Model implements TranslatableContract
         return $this->hasMany("App\Models\Task","parent_id", "id")->where('parent_id', "<>" ,null)->with('translations');
     }
 
-    public function responsable(){
+    public function responsible(){
         return $this->belongsTo("App\Models\User");
     }
     public function creator()

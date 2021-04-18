@@ -70,6 +70,10 @@ class Project extends Model implements TranslatableContract
         return $this->belongsToMany('App\Models\User', 'project_members', 'project_id', 'user_id', 'id', 'id')->withPivot('id', 'permission');
     }
 
+    public function tasks(){
+        return $this->hasMany('App\Models\Task');
+    }
+
     public function findIfMemberHasPermission($member_id, $permission = "all")
     {
         $member = $this->members()->where('users.id', $member_id)->first();

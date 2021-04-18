@@ -13,6 +13,7 @@ class Index extends Component
     use WithPagination;
 
     public $project;
+    public $parent;
     private $itemsPerPage = 4;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['selectEndDate', 'selectStartDate'];
@@ -125,15 +126,20 @@ class Index extends Component
     }
 
     public function getTasks(){
-        if ($this->project == null){
-            return Task::with('translations')->with('childs')->where('parent_id', null)->paginate($this->itemsPerPage);
+        if ($this->parent == null){
+            if ($this->project == null)
+                return Task::with('translations')->with('childs')->where('parent_id', null)->paginate($this->itemsPerPage);
+            else
+                return Task::with('translations')->with('childs')->where('project_id', '=', $this->project->id, 'and' )->where('parent_id', null)->paginate($this->itemsPerPage);
+                
         }else{
-            return Task::with('translations')->with('childs')->where('project_id', '=', $this->project->id, 'and' )->where('parent_id', null)->paginate($this->itemsPerPage);
+            return Task::with('translations')->with('childs')->where('project_id', '=', $this->project->id, 'and' )->where('parent_id', $this->parent->id)->paginate($this->itemsPerPage);
         }
     }
 
-    public function mount($project){
+    public function mount($project, $parent){
         $this->project = $project;
+        $this->parent = $parent;
     }
 
     public function render()

@@ -95,4 +95,26 @@ class ProjectPolicy
             return true;
         return false;
     }
+
+    public function attachFile($user, $project)
+    {
+        if ((isset($project->owner) && $user->id === $project->owner->id) ||
+            $user->id === $project->creator->id ||
+            $project->findIfMemberHasPermission($user->id, 'attach-file') ||
+            $project->findIfMemberHasPermission($user->id, 'all')
+        )
+            return true;
+        return false;
+    }
+
+    public function removeFile($user, $project)
+    {
+        if ((isset($project->owner) && $user->id === $project->owner->id) ||
+            $user->id === $project->creator->id ||
+            $project->findIfMemberHasPermission($user->id, 'remove-file') ||
+            $project->findIfMemberHasPermission($user->id, 'all')
+        )
+            return true;
+        return false;
+    }
 }

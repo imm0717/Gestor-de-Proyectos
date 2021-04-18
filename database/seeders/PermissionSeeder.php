@@ -16,6 +16,8 @@ class PermissionSeeder extends Seeder
         "5" => ['permission' => 'edit-task', 'description' => 'Editar Tarea de un Proyecto'],
         "6" => ['permission' => 'delete-task', 'description' => 'Eliminar Tarea de un Proyecto'],
         "7" => ['permission' => 'add-subtask', 'description' => 'Agregar Subtareas'],
+        "8" => ['permission' => 'attach-file', 'description' => 'Adjuntar Fichero'],
+        "9" => ['permission' => 'remove-file', 'description' => 'Eliminar Fichero'],
     ];
 
     /**

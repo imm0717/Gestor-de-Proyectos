@@ -3,7 +3,8 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label for="">Users</label>
-                <select class="form-control" name="" id="members-user-list">
+                <select class="form-control" id="members-user-list" @cannot('edit-project', $project) disabled
+                    @endcannot>
                     <option selected>Select</option>
                     @foreach ($users as $user)
                         <option value="{{ $user->id }}"> {{ $user->name }}</option>
@@ -33,21 +34,25 @@
                     @endif
                     <td width="100px">
                         @if ($editedMemberIndex != $index)
-                            <a class="btn btn-primary"
+                            <button class="btn btn-primary"
                                 wire:click="editPermissions({{ $index }}, '{{ $member->pivot->permission }}')"
-                                href="#" aria-label="Edit Permission">
+                                href="#" aria-label="Edit Permission" @cannot('edit-project', $project) disabled
+                                @endcannot>
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                            </a>
+                            </button>
                         @else
-                            <a class="btn btn-primary" wire:click="savePermission({{ $member->pivot->user_id }})"
-                                href="#" aria-label="Save Permission">
+                            <button class="btn btn-primary" wire:click="savePermission({{ $member->pivot->user_id }})"
+                                href="#" aria-label="Save Permission" 
+                                @cannot('edit-project', $project) disabled
+                                @endcannot>
                                 <i class="fa fa-floppy-o" aria-hidden="true"></i>
-                            </a>
+                            </button>
                         @endif
-                        <a class="btn btn-danger" wire:click="removeMember('{{ $member->pivot->id }}')" href="#"
-                            aria-label="Delete">
+                        <button class="btn btn-danger" wire:click="removeMember('{{ $member->pivot->id }}')" href="#"
+                            aria-label="Delete" 
+                            @cannot('edit-project', $project) disabled @endcannot>
                             <i class="fa fa-trash-o" aria-hidden="true"></i>
-                        </a>
+                        </button>
                     </td>
                     </tr>
                     @endforeach
