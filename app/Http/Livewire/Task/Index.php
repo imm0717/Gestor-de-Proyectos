@@ -127,7 +127,11 @@ class Index extends Component
 
     public function getTasks(){
         if ($this->parent == null){
-            return Task::with('translations')->with('childs')->where('project_id', '=', $this->project->id, 'and' )->where('parent_id', null)->paginate($this->itemsPerPage);
+            if ($this->project == null)
+                return Task::with('translations')->with('childs')->where('parent_id', null)->paginate($this->itemsPerPage);
+            else
+                return Task::with('translations')->with('childs')->where('project_id', '=', $this->project->id, 'and' )->where('parent_id', null)->paginate($this->itemsPerPage);
+                
         }else{
             return Task::with('translations')->with('childs')->where('project_id', '=', $this->project->id, 'and' )->where('parent_id', $this->parent->id)->paginate($this->itemsPerPage);
         }

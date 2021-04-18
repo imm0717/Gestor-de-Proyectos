@@ -37,6 +37,7 @@ return [
             'index' => [
                 'table' => [
                     'header-name' => 'Nombre',
+                    'header-project' => 'Proyecto',
                     'header-startdate' => 'Inicio',
                     'header-enddate' => 'Conclución'
                 ],

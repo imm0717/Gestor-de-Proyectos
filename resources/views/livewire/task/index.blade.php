@@ -5,13 +5,14 @@
             <tr>
                 <th scope="col" width="10px">#</th>
                 <th scope="col">@lang('view.livewire.task.index.table.header-name')</th>
+                <th scope="col">@lang('view.livewire.task.index.table.header-project')</th>
                 <th scope="col" width="80px">@lang('view.livewire.task.index.table.header-startdate')</th>
                 <th scope="col" width="80px">@lang('view.livewire.task.index.table.header-enddate')</th>
-                <th scope="col" width="130px">
+                <th scope="col" width="80px">
                     <!-- Button trigger modal -->
-                    @if (isset($project))
+                    @if ($parent != null)
                       @can('add-task', $project)
-                      <button type="button" wire:click="resetForm" class="btn btn-primary btn-sm" data-toggle="modal"
+                      <button type="button" wire:click="resetForm('{{ $parent->id }}')" class="btn btn-primary btn-sm" data-toggle="modal"
                             data-target="#taskModal">
                             {{ __('New') }}
                         </button>
@@ -27,6 +28,7 @@
                 <tr>
                     <td scope="row ">{{ $loop->iteration }}</td>
                     <td>{{ $task_data->name }}</td>
+                    <td>{{ $task_data->project->name }}</td>
                     <td>{{ $task_data->start_date }}</td>
                     <td>{{ $task_data->end_date }}</td>
                     <td>
@@ -41,7 +43,7 @@
                                 <a class="dropdown-item" href="#" wire:click="edit('{{ $task_data['id'] }}')"
                                     data-toggle="modal" data-target="#taskModal">{{ __('Edit') }}</a>
                                 @endcan
-                                @if (isset($project))
+                                @if (isset($project) && !isset($parent))
                                 @can('add-subtask', $project)
                                     <a class="dropdown-item" href="#" wire:click="resetForm('{{ $task_data['id'] }}')"
                                         data-toggle="modal" data-target="#taskModal">{{ __('Add Subtask') }}</a>
@@ -58,7 +60,7 @@
                 </tr>
                 @if ($task_data->childs()->count() > 0)
                     <tr>
-                        <td colspan="5">
+                        <td colspan="6">
                             @include('livewire.task.partials.subtask-list')
                         </td>
                     </tr>

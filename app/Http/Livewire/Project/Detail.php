@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Project;
 
-use App\Models\Project;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Livewire\Component;
