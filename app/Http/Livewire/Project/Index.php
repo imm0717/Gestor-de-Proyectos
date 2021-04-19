@@ -17,7 +17,7 @@ class Index extends Component
 
     private $itemsPerPage = 8;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['selectEndDate', 'selectStartDate'];
+    protected $listeners = ['selectProjectEndDate', 'selectProjectStartDate'];
 
     public $parent_id = null;
     public $project = null;
@@ -51,12 +51,12 @@ class Index extends Component
     {
         $this->resetValidation();
         $this->project = new Project();
-        $this->project->parent_id = $parent_id;
+        $this->project->parent_id = ($parent_id == "") ? null : $parent_id;
         $this->project->created_by_id = auth()->id();
         $this->project->start_date = Carbon::now()->format('d-m-Y');
         $this->project->end_date = Carbon::now()->addDay()->format('d-m-Y');
 
-        if (isset($parent_id)) {
+        if (isset($parent_id) && $parent_id != "") {
             $parent_project = Project::find($parent_id);
             $parent_translations = $parent_project->getTranslationsArray();
         }
@@ -66,14 +66,17 @@ class Index extends Component
             $this->data[$locale]['description'] = '';
             $this->data[$locale]['parent_name'] = (isset($parent_translations[$locale]['name'])) ? $parent_translations[$locale]['name'] : '';
         }
+
+        $this->dispatchBrowserEvent('initCalendar');
     }
 
     public function edit($id)
     {
+
         $this->project = Project::findOrFail($id);
         $translations = $this->project->getTranslationsArray();
         $project_parent = $this->project->parent;
-        
+
         if (isset($project_parent)) {
             $parent_translations = $this->project->parent->getTranslationsArray();
         }
@@ -84,6 +87,8 @@ class Index extends Component
             if (isset($project_parent) && count($parent_translations) > 0)
                 $this->data[$locale]['parent_name'] = $parent_translations[$locale]['name'];
         }
+
+        $this->dispatchBrowserEvent('initCalendar');
     }
 
     public function submit()
@@ -108,7 +113,6 @@ class Index extends Component
         }
 
         try {
-            
             $this->project->save();
             session()->flash('message', $log_message);
             $this->logActivity($log_action, $log_message, ['model' => Project::class, 'id' => $this->project->id]);
@@ -143,19 +147,20 @@ class Index extends Component
         $this->dispatchBrowserEvent('closeDeleteModal');
     }
 
-    public function selectStartDate($value)
+    public function selectProjectStartDate($value)
     {
         $this->project->start_date = $value;
         $this->validateOnly('project.start_date');
     }
 
-    public function selectEndDate($value)
+    public function selectProjectEndDate($value)
     {
         $this->project->end_date = $value;
         $this->validateOnly('project.end_date');
     }
 
-    public function mount($parentId){
+    public function mount($parentId = null)
+    {
         $this->parent_id = $parentId;
     }
 

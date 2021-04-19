@@ -12,8 +12,8 @@
                 <th scope="col" width="80px">@lang('view.livewire.project.index.table.header-startdate')</th>
                 <th scope="col" width="130px">
                     <!-- Button trigger modal -->
-                    <button type="button" wire:click="resetForm('{{ $parent_id }}')" class="btn btn-primary btn-sm" data-toggle="modal"
-                        data-target="#projectModal">
+                    <button type="button" wire:click="resetForm('{{ $parent_id }}')" class="btn btn-primary btn-sm"
+                        data-toggle="modal" data-target="#projectModal">
                         {{ __('New') }}
                     </button>
                 </th>
@@ -69,6 +69,23 @@
 </div>
 @push('scripts')
     <script type="text/javascript">
+        
+        function initCalendar() {
+            $('.projectStartDate').datetimepicker({
+                format: 'DD-MM-YYYY'
+            }).on('dp.change', function(ev) {
+                date = ev.date.format('{{ config('app.front_format') }}');
+                Livewire.emit("selectProjectStartDate", date)
+            })
+
+            $('.projectEndtDate').datetimepicker({
+                format: 'DD-MM-YYYY'
+            }).on('dp.change', function(ev) {
+                date = ev.date.format('{{ config('app.front_format') }}');
+                Livewire.emit("selectProjectEndDate", date)
+            })
+        }
+        
         window.addEventListener('projectStored', () => {
             $('#projectModal').modal('hide');
         })
@@ -77,18 +94,8 @@
             $('#delete_modal').modal('hide');
         })
 
-        $('.projectStartDate').datetimepicker({
-            format: 'DD-MM-YYYY'
-        }).on('dp.change', function(ev) {
-            date = ev.date.format('{{ config('app.front_format') }}');
-            Livewire.emit("selectStartDate", date)
-        })
-
-        $('.projectEndtDate').datetimepicker({
-            format: 'DD-MM-YYYY'
-        }).on('dp.change', function(ev) {
-            date = ev.date.format('{{ config('app.front_format') }}');
-            Livewire.emit("selectEndDate", date)
+        window.addEventListener('initCalendar', function() {
+            initCalendar();
         })
 
     </script>

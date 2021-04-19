@@ -10,7 +10,7 @@
                             <div class="card">
                                 <div class="card-header">@lang('view.livewire.project.index.title')</div>
                                 <div class="card-body">
-                                    <livewire:project.index :parentId="null"/>
+                                    <livewire:project.index/>
                                 </div>
                             </div>
                         </div>
