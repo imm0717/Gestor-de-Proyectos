@@ -16,7 +16,7 @@ class Index extends Component
 
     public $project;
     public $parent;
-    private $itemsPerPage = 4;
+    private $itemsPerPage = 10;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['selectEndDate', 'selectStartDate'];
 

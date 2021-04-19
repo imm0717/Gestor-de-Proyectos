@@ -15,7 +15,7 @@ class Index extends Component
     use WithPagination;
     use WithLogs;
 
-    private $itemsPerPage = 4;
+    private $itemsPerPage = 8;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['selectEndDate', 'selectStartDate'];
 
@@ -45,7 +45,6 @@ class Index extends Component
     {
         $this->validateOnly($propertyName);
     }
-
 
     public function resetForm($parent_id = null)
     {
@@ -89,10 +88,10 @@ class Index extends Component
     {
         if ($this->project->id == "") {
             $log_action = WithLogs::$create;
-            $log_message = "Project added";
+            $log_message = "Proyecto creado";
         } else {
             $log_action = WithLogs::$update;
-            $log_message = "Project updated";
+            $log_message = "Proyecto actualizado";
         }
 
         $this->validate($this->rules);
@@ -107,14 +106,17 @@ class Index extends Component
         }
 
         try {
+            
             $this->project->save();
+            session()->flash('message', $log_message);
             $this->logActivity($log_action, $log_message, ['model' => Project::class, 'id' => $this->project->id]);
             $this->dispatchBrowserEvent('projectStored');
+            $this->dispatchBrowserEvent('alert');
             $this->resetForm();
-            session()->flash('message', 'Todo OK');
         } catch (QueryException $e) {
+            session()->flash('message', "Error al gestionar Proyecto");
             $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Project::class, 'id' => isset($this->project->id) ? $this->project->id : null]);
-            session()->keep('message', 'Ocurrio un error');
+            $this->dispatchBrowserEvent('alert');
         }
     }
 
@@ -128,9 +130,12 @@ class Index extends Component
         try {
             $log_message = "Proyecto eliminado";
             $this->project->delete();
+            session()->flash('message', $log_message);
             $this->logActivity(WithLogs::$delete, $log_message, ['model' => Project::class, 'id' => $this->project->id]);
+            $this->dispatchBrowserEvent('alert');
         } catch (QueryException $e) {
             $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Project::class, 'id' => $this->project->id]);
+            $this->dispatchBrowserEvent('alert');
         }
 
         $this->dispatchBrowserEvent('closeDeleteModal');

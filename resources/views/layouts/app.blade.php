@@ -22,6 +22,7 @@
         rel="stylesheet">
     <link href="{{ asset('vendor/general/bootstrap-select-1.13.0-dev/dist/css/bootstrap-select.min.css') }}"
         rel="stylesheet">
+    
     @livewireStyles
     @stack('styles')
 
@@ -60,6 +61,12 @@
                                 <li class="nav-item">
                                     <a class="nav-link {{ \Illuminate\Support\Facades\Route::current()->getName() == 'tasks' ? 'active' : '' }}"
                                         href="{{ route('tasks') }}">{{ __('My Tasks') }}</a>
+                                </li>
+                            @endif
+                            @if (Route::has('processes'))
+                                <li class="nav-item">
+                                    <a class="nav-link {{ \Illuminate\Support\Facades\Route::current()->getName() == 'processes' ? 'active' : '' }}"
+                                        href="{{ route('processes') }}">{{ __('Processes') }}</a>
                                 </li>
                             @endif
                         @endauth
@@ -125,6 +132,25 @@
     </script>
     
     @livewireScripts
+    <script>
+        window.addEventListener('alert', event => { 
+                     /* toastr[event.detail.type](event.detail.message, 
+                     event.detail.title ?? '') toastr.options = {
+                            "closeButton": true,
+                            "progressBar": true,
+                        } */
+
+                        $('.toast').toast({
+                            'animation': true,
+                            'autohide': true,
+                            'delay': 5000
+                        });
+                        $('.toast').toast('show');
+                        //console.log('Toast ejecutado');
+
+
+                    })
+         </script> 
     @stack('scripts')
     
 </body>
