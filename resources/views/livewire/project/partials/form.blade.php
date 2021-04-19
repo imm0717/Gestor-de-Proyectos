@@ -1,10 +1,10 @@
 <!-- Modal -->
-<div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+<div wire:ignore.self class="modal fade" id="projectModal" tabindex="-1" aria-labelledby="projectModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">
+                    <h5 class="modal-title" id="projectModalLabel">
                         @if(!isset($this->project->parent_id) || $this->project->parent_id == null)
                             @if(!isset($this->project->id) || $this->project->id == null)
                                 @lang('view.livewire.project.partials.form.create')

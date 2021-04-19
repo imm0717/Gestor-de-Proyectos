@@ -19,6 +19,7 @@ return [
             'details' => [
                 'title' => 'Detalles del Proyecto',
                 'description_tab' => 'Descripción',
+                'subprojects_tab' => 'Subproyectos',
                 'tasks_tab' => 'Tareas',
                 'members_tab' => 'Miembros',
                 'files_tab' => 'Ficheros Adjuntos',

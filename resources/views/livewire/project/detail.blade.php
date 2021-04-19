@@ -68,6 +68,10 @@
                                         id="nav-description-tab" data-toggle="tab" href="#nav-description" role="tab"
                                         aria-controls="nav-description"
                                         aria-selected="true">@lang('view.livewire.project.details.description_tab')</a>
+                                    <a wire:ignore class="nav-item nav-link font-weight-bold" id="nav-subprojects-tab"
+                                        data-toggle="tab" href="#nav-subprojects" role="tab"
+                                        aria-controls="nav-subprojects"
+                                        aria-selected="true">@lang('view.livewire.project.details.subprojects_tab')</a>
                                     <a wire:ignore class="nav-item nav-link font-weight-bold" id="nav-tasks-tab"
                                         data-toggle="tab" href="#nav-tasks" role="tab" aria-controls="nav-tasks"
                                         aria-selected="true">@lang('view.livewire.project.details.tasks_tab')</a>
@@ -86,6 +90,12 @@
                                 role="tabpanel" aria-labelledby="nav-description-tab">
                                 <div class="container pt-2" style="min-height: 150px">
                                     {{ $project->translate($default_locale)->description }}
+                                </div>
+                            </div>
+                            <div wire:ignore.self class="tab-pane fade border show" id="nav-subprojects"
+                                role="tabpanel" aria-labelledby="nav-subprojects-tab">
+                                <div class="container pt-2" style="min-height: 150px">
+                                    <livewire:project.index :parentId="$project->id"/>
                                 </div>
                             </div>
                             <div wire:ignore.self class="tab-pane fade border show" id="nav-tasks" role="tabpanel"

@@ -19,6 +19,7 @@ return [
             'details' => [
                 'title' => 'Project Details',
                 'description_tab' => 'Description',
+                'subprojects_tab' => 'Subproyectos',
                 'tasks_tab' => 'Tasks',
                 'members_tab' => 'Members',
                 'files_tab' => 'Attached Files',

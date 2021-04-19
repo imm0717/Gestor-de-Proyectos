@@ -16,11 +16,11 @@
                                 href="{{ route('project.detail', $child) }}">{{ __('Details') }}</a>
                             @can('edit-project', $child)
                                 <a class="dropdown-item" href="#" wire:click="edit('{{ $child['id'] }}')"
-                                    data-toggle="modal" data-target="#exampleModal">{{ __('Edit') }}</a>
+                                    data-toggle="modal" data-target="#projectModal">{{ __('Edit') }}</a>
                             @endcan
                             @can('add-subproject', $child)
                                 <a class="dropdown-item" href="#" wire:click="resetForm('{{ $child['id'] }}')"
-                                    data-toggle="modal" data-target="#exampleModal">{{ __('Add Subproject') }}</a>
+                                    data-toggle="modal" data-target="#projectModal">{{ __('Add Subproject') }}</a>
                             @endcan
                             @can('delete-project', $child)
                                 <a class="dropdown-item" href="#"

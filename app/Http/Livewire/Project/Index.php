@@ -19,6 +19,7 @@ class Index extends Component
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['selectEndDate', 'selectStartDate'];
 
+    public $parent_id = null;
     public $project = null;
     public $data = [];
 
@@ -154,10 +155,14 @@ class Index extends Component
         $this->validateOnly('project.end_date');
     }
 
+    public function mount($parentId){
+        $this->parent_id = $parentId;
+    }
+
     public function render()
     {
         return view('livewire.project.index', [
-            'projects' => Project::with('translations')->with('childs')->with('owner')->with('creator')->with('members')->where('parent_id', null)->paginate($this->itemsPerPage),
+            'projects' => Project::with('translations')->with('childs')->with('owner')->with('creator')->with('members')->where('parent_id', $this->parent_id)->paginate($this->itemsPerPage),
             'users' => User::all(),
             'locales' => config('translatable.locales'),
             'default_locale' => config('app.locale')
