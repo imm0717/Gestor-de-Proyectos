@@ -17,5 +17,8 @@
   "Parent Task": "Tarea Padre",
   "Add Subtask": "Agregar Subtarea",
   "My Projects": "Mis Proyectos",
-  "My Tasks": "Mis Tareas"
+  "My Tasks": "Mis Tareas",
+  "Add Subprocess": "Agregar Subproceso",
+  "Parent process": "Proceso Padre",
+  "Processes": "Procesos"
 }

@@ -62,6 +62,12 @@
                                         href="{{ route('tasks') }}">{{ __('My Tasks') }}</a>
                                 </li>
                             @endif
+                            @if (Route::has('processes'))
+                                <li class="nav-item">
+                                    <a class="nav-link {{ \Illuminate\Support\Facades\Route::current()->getName() == 'processes' ? 'active' : '' }}"
+                                        href="{{ route('processes') }}">{{ __('Processes') }}</a>
+                                </li>
+                            @endif
                         @endauth
                     </ul>
 

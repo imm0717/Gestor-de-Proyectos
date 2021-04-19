@@ -12,7 +12,7 @@ return [
                 'table' => [
                     'header-name' => 'Nombre',
                     'header-startdate' => 'Inicio',
-                    'header-enddate' => 'Conclución'
+                    'header-enddate' => 'Conclusión'
                 ],
                 'title' => 'Proyectos y Subproyectos'
             ],
@@ -39,7 +39,7 @@ return [
                     'header-name' => 'Nombre',
                     'header-project' => 'Proyecto',
                     'header-startdate' => 'Inicio',
-                    'header-enddate' => 'Conclución'
+                    'header-enddate' => 'Conclusión'
                 ],
                 'title' => 'Tareas y Subtareas'
             ],
@@ -59,6 +59,25 @@ return [
                 ]
             ]
 
+        ],
+        'process' => [
+            'index' => [
+                'table' => [
+                    'header-name' => 'Nombre',
+                    'header-startdate' => 'Inicio',
+                    'header-enddate' => 'Conclusión'
+                ],
+                'title' => 'Procesos y Subprocesos'
+            ],
+
+            'partials' => [
+                'form' => [
+                    'create' => 'Nuevo Proceso',
+                    'update' => 'Actualizar Proceso',
+                    'create-subprocess' => 'Nuevo Subproceso',
+                    'update-subprocess' => 'Actualizar Subproceso'
+                ]
+            ]
         ]
     ],
     'partials' => [

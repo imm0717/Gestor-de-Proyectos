@@ -46,7 +46,6 @@ class Index extends Component
         $this->validateOnly($propertyName);
     }
 
-
     public function resetForm($parent_id = null)
     {
         $this->resetValidation();
