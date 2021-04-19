@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProcesoController;
+use App\Http\Controllers\ProcessController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
@@ -36,6 +38,8 @@ Route::group(['middleware' => 'auth'], function(){
 
     Route::get('/tasks', [TaskController::class, 'index'])->name('tasks');
     Route::get('/tasks/{task}', [TaskController::class, 'show'])->name('task.detail');
+
+    Route::get('/processes', [ProcesoController::class, 'index'])->name('processes');
 });
 
 
