@@ -8,10 +8,12 @@ use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Traits\WithLogs;
 
 class Index extends Component
 {
     use WithPagination;
+    use WithLogs;
 
     private $itemsPerPage = 4;
     protected $paginationTheme = 'bootstrap';
@@ -45,7 +47,8 @@ class Index extends Component
     }
 
 
-    public function resetForm($parent_id = null){
+    public function resetForm($parent_id = null)
+    {
         $this->resetValidation();
         $this->project = new Project();
         $this->project->parent_id = $parent_id;
@@ -53,7 +56,7 @@ class Index extends Component
         $this->project->start_date = Carbon::now()->format('d-m-Y');
         $this->project->end_date = Carbon::now()->addDay()->format('d-m-Y');
 
-        if (isset($parent_id)){
+        if (isset($parent_id)) {
             $parent_project = Project::find($parent_id);
             $parent_translations = $parent_project->getTranslationsArray();
         }
@@ -65,65 +68,88 @@ class Index extends Component
         }
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $this->project = Project::findOrFail($id);
         $translations = $this->project->getTranslationsArray();
         $project_parent = $this->project->parent;
-        if (isset($project_parent)){
+        if (isset($project_parent)) {
             $parent_translations = $this->project->parent->getTranslationsArray();
         }
 
-        foreach (config('translatable.locales') as $locale){
+        foreach (config('translatable.locales') as $locale) {
             $this->data[$locale]['name'] = $translations[$locale]['name'];
             $this->data[$locale]['description'] = $translations[$locale]['description'];
-            if ( isset($project_parent) && count($parent_translations) > 0 )
+            if (isset($project_parent) && count($parent_translations) > 0)
                 $this->data[$locale]['parent_name'] = $parent_translations[$locale]['name'];
         }
     }
 
-    public function submit(){
+    public function submit()
+    {
+        if ($this->project->id == "") {
+            $log_action = WithLogs::$create;
+            $log_message = "Project added";
+        } else {
+            $log_action = WithLogs::$update;
+            $log_message = "Project updated";
+        }
+
         $this->validate($this->rules);
 
-        foreach (config('translatable.locales') as $locale){
-            if (isset($this->data[$locale]['name'])){
+        foreach (config('translatable.locales') as $locale) {
+            if (isset($this->data[$locale]['name'])) {
                 $this->project->translateOrNew($locale)->name = $this->data[$locale]['name'];
             }
-            if (isset($this->data[$locale]['description'])){
+            if (isset($this->data[$locale]['description'])) {
                 $this->project->translateOrNew($locale)->description = $this->data[$locale]['description'];
             }
         }
 
-        try{
+        try {
             $this->project->save();
+            $this->logActivity($log_action, $log_message, ['model' => Project::class, 'id' => $this->project->id]);
             $this->dispatchBrowserEvent('projectStored');
             $this->resetForm();
             session()->flash('message', 'Todo OK');
-
-        }catch(QueryException $e){
+        } catch (QueryException $e) {
+            $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Project::class, 'id' => isset($this->project->id) ? $this->project->id : null]);
             session()->keep('message', 'Ocurrio un error');
         }
     }
 
-    public function showDeleteConfirmationModal($id){
+    public function showDeleteConfirmationModal($id)
+    {
         $this->project = Project::find($id);
     }
 
-    public function delete(){
-        $this->project->delete();
+    public function delete()
+    {
+        try {
+            $log_message = "Proyecto eliminado";
+            $this->project->delete();
+            $this->logActivity(WithLogs::$delete, $log_message, ['model' => Project::class, 'id' => $this->project->id]);
+        } catch (QueryException $e) {
+            $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Project::class, 'id' => $this->project->id]);
+        }
+
         $this->dispatchBrowserEvent('closeDeleteModal');
     }
 
-    public function selectStartDate($value){
+    public function selectStartDate($value)
+    {
         $this->project->start_date = $value;
         $this->validateOnly('project.start_date');
     }
 
-    public function selectEndDate($value){
+    public function selectEndDate($value)
+    {
         $this->project->end_date = $value;
         $this->validateOnly('project.end_date');
     }
 
-    public function render(){
+    public function render()
+    {
         return view('livewire.project.index', [
             'projects' => Project::with('translations')->with('childs')->with('owner')->with('creator')->with('members')->where('parent_id', null)->paginate($this->itemsPerPage),
             'users' => User::all(),

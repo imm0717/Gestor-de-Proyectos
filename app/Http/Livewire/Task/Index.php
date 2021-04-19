@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Task;
 
 use App\Models\Task;
+use App\Traits\WithLogs;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Livewire\Component;
@@ -11,6 +12,7 @@ use Livewire\WithPagination;
 class Index extends Component
 {
     use WithPagination;
+    use WithLogs;
 
     public $project;
     public $parent;
@@ -47,16 +49,17 @@ class Index extends Component
     }
 
 
-    public function resetForm($parent_id = null){
+    public function resetForm($parent_id = null)
+    {
         $this->resetValidation();
         $this->task = new Task();
-        $this->task->project_id = (isset($this->project->id))? $this->project->id : null;
+        $this->task->project_id = (isset($this->project->id)) ? $this->project->id : null;
         $this->task->parent_id = $parent_id;
         $this->task->created_by_id = auth()->id();
         $this->task->start_date = Carbon::now()->format('d-m-Y');
         $this->task->end_date = Carbon::now()->addDay()->format('d-m-Y');
 
-        if (isset($parent_id)){
+        if (isset($parent_id)) {
             $parent_task = Task::find($parent_id);
             $parent_translations = $parent_task->getTranslationsArray();
         }
@@ -67,77 +70,103 @@ class Index extends Component
         }
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $this->task = Task::findOrFail($id);
         $translations = $this->task->getTranslationsArray();
         $task_parent = $this->task->parent;
-        if (isset($task_parent)){
+        if (isset($task_parent)) {
             $parent_translations = $this->task->parent->getTranslationsArray();
         }
 
-        foreach (config('translatable.locales') as $locale){
+        foreach (config('translatable.locales') as $locale) {
             $this->data[$locale]['name'] = $translations[$locale]['name'];
             $this->data[$locale]['description'] = $translations[$locale]['description'];
-            if ( isset($task_parent) && count($parent_translations) > 0 )
+            if (isset($task_parent) && count($parent_translations) > 0)
                 $this->data[$locale]['parent_name'] = $parent_translations[$locale]['name'];
         }
     }
 
-    public function submit(){
+    public function submit()
+    {
+
+        if ($this->task->id == "") {
+            $log_action = WithLogs::$create;
+            $log_message = "Task created";
+        } else {
+            $log_action = WithLogs::$update;
+            $log_message = "Task updated";
+        }
+
+
         $this->validate($this->rules);
 
-        foreach (config('translatable.locales') as $locale){
-            if (isset($this->data[$locale]['name'])){
+        foreach (config('translatable.locales') as $locale) {
+            if (isset($this->data[$locale]['name'])) {
                 $this->task->translateOrNew($locale)->name = $this->data[$locale]['name'];
             }
-            if (isset($this->data[$locale]['description'])){
+            if (isset($this->data[$locale]['description'])) {
                 $this->task->translateOrNew($locale)->description = $this->data[$locale]['description'];
             }
         }
 
-       // try{
+        try {
             $this->task->save();
+            $this->logActivity($log_action, $log_message, ['model' => Task::class, 'id' => $this->task->id]);
+
             $this->dispatchBrowserEvent('closeModal');
             $this->resetForm();
             session()->flash('message', 'Todo OK');
-
-        /*}catch(QueryException $e){
+        } catch (QueryException $e) {
+            $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Task::class, 'id' => isset($this->task->id) ? $this->task->id : null]);
             session()->flash('message', 'Ocurrio un error');
-        }*/
+        }
     }
 
-    public function selectStartDate($value){
+    public function selectStartDate($value)
+    {
         $this->task->start_date = $value;
         $this->validateOnly('task.start_date');
     }
 
-    public function selectEndDate($value){
+    public function selectEndDate($value)
+    {
         $this->task->end_date = $value;
         $this->validateOnly('task.end_date');
     }
 
-    public function showDeleteConfirmationModal($id){
+    public function showDeleteConfirmationModal($id)
+    {
         $this->task = Task::find($id);
     }
 
-    public function delete(){
-        $this->task->delete();
+    public function delete()
+    {
+        try {
+            $log_message = "Tarea eliminada";
+            $this->task->delete();
+            $this->logActivity(WithLogs::$delete, $log_message, ['model' => Task::class, 'id' => $this->task->id]);
+        } catch (QueryException $e) {
+            $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Task::class, 'id' => $this->task->id]);
+        }
+
         $this->dispatchBrowserEvent('closeDeleteModal');
     }
 
-    public function getTasks(){
-        if ($this->parent == null){
+    public function getTasks()
+    {
+        if ($this->parent == null) {
             if ($this->project == null)
                 return Task::with('translations')->with('childs')->where('parent_id', null)->paginate($this->itemsPerPage);
             else
-                return Task::with('translations')->with('childs')->where('project_id', '=', $this->project->id, 'and' )->where('parent_id', null)->paginate($this->itemsPerPage);
-                
-        }else{
-            return Task::with('translations')->with('childs')->where('project_id', '=', $this->project->id, 'and' )->where('parent_id', $this->parent->id)->paginate($this->itemsPerPage);
+                return Task::with('translations')->with('childs')->where('project_id', '=', $this->project->id, 'and')->where('parent_id', null)->paginate($this->itemsPerPage);
+        } else {
+            return Task::with('translations')->with('childs')->where('project_id', '=', $this->project->id, 'and')->where('parent_id', $this->parent->id)->paginate($this->itemsPerPage);
         }
     }
 
-    public function mount($project, $parent){
+    public function mount($project, $parent)
+    {
         $this->project = $project;
         $this->parent = $parent;
     }
