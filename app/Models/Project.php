@@ -47,7 +47,7 @@ class Project extends Model implements TranslatableContract
 
     public function parent()
     {
-        return $this->belongsTo("App\Models\Project", "parent_id")->where('parent_id', '=', null)->with('translations')->with('members');
+        return $this->belongsTo("App\Models\Project", "parent_id")->with('translations')->with('members');
     }
 
     public function childs()

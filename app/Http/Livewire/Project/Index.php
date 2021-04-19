@@ -72,6 +72,7 @@ class Index extends Component
         $this->project = Project::findOrFail($id);
         $translations = $this->project->getTranslationsArray();
         $project_parent = $this->project->parent;
+        
         if (isset($project_parent)) {
             $parent_translations = $this->project->parent->getTranslationsArray();
         }

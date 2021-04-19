@@ -53,7 +53,7 @@
                                     @if($project_data->childs()->count() > 0)
                                     <tr>
                                         <td colspan="4">
-                                            @include('livewire.project.partials.subproject-list')
+                                            @include('livewire.project.partials.subproject-list', ['childs' => $project_data->childs(), 'loop_id' => $loop->iteration])
                                         </td>
                                     </tr>
                                     @endif
