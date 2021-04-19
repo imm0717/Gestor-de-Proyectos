@@ -67,6 +67,7 @@
         </div>
     </div>
     @include('livewire.project.partials.form')
+    @include('partials.alerts');
     @include('partials.delete-modal')
 </div>
 @push('scripts')
@@ -94,9 +95,9 @@
         })
 
 
-        $(document).ready(function(){
+        /* $(document).ready(function(){
             $(".toast").toast();
-        });
+        }); */
 
     </script>
 @endpush

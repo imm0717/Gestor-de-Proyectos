@@ -22,6 +22,7 @@
         rel="stylesheet">
     <link href="{{ asset('vendor/general/bootstrap-select-1.13.0-dev/dist/css/bootstrap-select.min.css') }}"
         rel="stylesheet">
+    
     @livewireStyles
     @stack('styles')
 
@@ -131,6 +132,25 @@
     </script>
     
     @livewireScripts
+    <script>
+        window.addEventListener('alert', event => { 
+                     /* toastr[event.detail.type](event.detail.message, 
+                     event.detail.title ?? '') toastr.options = {
+                            "closeButton": true,
+                            "progressBar": true,
+                        } */
+
+                        $('.toast').toast({
+                            'animation': true,
+                            'autohide': true,
+                            'delay': 5000
+                        });
+                        $('.toast').toast('show');
+                        //console.log('Toast ejecutado');
+
+
+                    })
+         </script> 
     @stack('scripts')
     
 </body>
