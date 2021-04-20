@@ -15,11 +15,13 @@ class Index extends Component
     use WithPagination;
     use WithLogs;
 
-    private $itemsPerPage = 4;
-    protected $paginationTheme = 'bootstrap';
-
+    private $itemsPerPage = 10;
     public $process = null;
     public $data = [];
+    public $deleteModalId = "processDeleteModal";
+    
+    protected $listeners = ['delete'];
+    protected $paginationTheme = 'bootstrap';
 
     protected $rules = [
         'data.en.name' => 'required|string|max:50',
@@ -97,21 +99,22 @@ class Index extends Component
             }
         }
 
-       // try {
+       try {
             $this->process->save();
             $this->logActivity($log_action, $log_message, ['model' => Process::class, 'id' => $this->process->id]);
             $this->dispatchBrowserEvent('processStored');
             $this->resetForm();
             session()->flash('message', 'Todo OK');
-        /* } catch (QueryException $e) {
+        } catch (QueryException $e) {
             $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Process::class, 'id' => isset($this->process->id) ? $this->process->id : null]);
             session()->keep('message', 'Ocurrio un error');
-        } */
+        }
     }
 
     public function showDeleteConfirmationModal($id)
     {
         $this->process = Proceso::find($id);
+        $this->dispatchBrowserEvent('show'.$this->deleteModalId);
     }
 
     public function delete()
@@ -124,7 +127,7 @@ class Index extends Component
             $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Process::class, 'id' => $this->process->id]);
         }
 
-        $this->dispatchBrowserEvent('closeDeleteModal');
+        $this->dispatchBrowserEvent('close'.$this->deleteModalId);
     }
 
     public function render()
