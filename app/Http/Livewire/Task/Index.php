@@ -53,7 +53,11 @@ class Index extends Component
     {
         $this->resetValidation();
         $this->task = new Task();
-        $this->task->project_id = (isset($this->project->id)) ? $this->project->id : null;
+        if ($parent_id != "" && $parent_id != null){
+            $parent_task = Task::findOrFail($parent_id);
+            $this->task->project_id = $parent_task->project->id;
+        }
+        //$this->task->project_id = (isset($this->project->id)) ? $this->project->id : null;
         $this->task->parent_id = $parent_id;
         $this->task->created_by_id = auth()->id();
         $this->task->start_date = Carbon::now()->format('d-m-Y');

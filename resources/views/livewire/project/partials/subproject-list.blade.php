@@ -4,8 +4,8 @@
             <tr>
                 <td width="10px">{{ $loop_id .'.'. $loop->iteration }}</td>
                 <td>{{ $child->name }}</td>
-                <td width="80px">{{ $child->start_date }}</td>
-                <td width="130px">
+                <td scope="col" width="10%">{{ $child->start_date }}</td>
+                <td scope="col" width="10%">
                     <div class="dropdown">
                         <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">

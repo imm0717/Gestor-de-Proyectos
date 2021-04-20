@@ -9,8 +9,8 @@
             <tr>
                 <th scope="col" width="10px">#</th>
                 <th scope="col">@lang('view.livewire.project.index.table.header-name')</th>
-                <th scope="col" width="80px">@lang('view.livewire.project.index.table.header-startdate')</th>
-                <th scope="col" width="130px">
+                <th scope="col" width="10%">@lang('view.livewire.project.index.table.header-startdate')</th>
+                <th scope="col" width="10%">
                     <!-- Button trigger modal -->
                     <button type="button" wire:click="resetForm('{{ $parent_id }}')" class="btn btn-primary btn-sm"
                         data-toggle="modal" data-target="#projectModal">

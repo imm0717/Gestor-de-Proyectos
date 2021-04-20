@@ -122,7 +122,7 @@
                                         <label for="desciption">{{ __('Description') }}</label>
                                         <textarea
                                                 class="form-control @if($errors->has('data.'.$locale.'.description')) is-invalid @endif"
-                                                id="desciption" rows="3"
+                                                rows="3"
                                                 wire:model.debounce.500ms="data.{{$locale}}.description"></textarea>
                                         @if($errors->has('data.'.$locale.'.description'))
                                             <div class="invalid-feedback">

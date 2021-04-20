@@ -1,14 +1,13 @@
 <div>
-    {{ session('message') }}
     <table class="table table-striped table-bordered table-hover table-checkable table-sm" id="task_list_table">
         <thead>
             <tr>
                 <th scope="col" width="10px">#</th>
                 <th scope="col">@lang('view.livewire.task.index.table.header-name')</th>
                 <th scope="col">@lang('view.livewire.task.index.table.header-project')</th>
-                <th scope="col" width="80px">@lang('view.livewire.task.index.table.header-startdate')</th>
-                <th scope="col" width="80px">@lang('view.livewire.task.index.table.header-enddate')</th>
-                <th scope="col" width="80px">
+                <th scope="col" width="10%">@lang('view.livewire.task.index.table.header-startdate')</th>
+                <th scope="col" width="10%">@lang('view.livewire.task.index.table.header-enddate')</th>
+                <th scope="col" width="10%">
                     <!-- Button trigger modal -->
                     @if ($parent != null)
                       @can('add-task', $project)
@@ -61,7 +60,7 @@
                 @if ($task_data->childs()->count() > 0)
                     <tr>
                         <td colspan="6">
-                            @include('livewire.task.partials.subtask-list')
+                            @include('livewire.task.partials.subtask-list', ['childs' => $task_data->childs(), 'loop_id' => $loop->iteration])
                         </td>
                     </tr>
                 @endif
