@@ -16,12 +16,16 @@ class Index extends Component
     use WithLogs;
 
     private $itemsPerPage = 8;
-    protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['selectProjectEndDate', 'selectProjectStartDate'];
 
     public $parent_id = null;
     public $project = null;
     public $data = [];
+    public $deleteModalId = "deleteProjectModal";
+
+    protected $paginationTheme = 'bootstrap';
+    protected $listeners = ['delete', 'selectProjectEndDate', 'selectProjectStartDate'];
+
+    
 
     protected $rules = [
         'data.en.name' => 'required|string|max:50',
@@ -129,6 +133,7 @@ class Index extends Component
     public function showDeleteConfirmationModal($id)
     {
         $this->project = Project::find($id);
+        $this->dispatchBrowserEvent('show'.$this->deleteModalId);
     }
 
     public function delete()
@@ -144,7 +149,7 @@ class Index extends Component
             $this->dispatchBrowserEvent('alert');
         }
 
-        $this->dispatchBrowserEvent('closeDeleteModal');
+        $this->dispatchBrowserEvent('close'.$this->deleteModalId);
     }
 
     public function selectProjectStartDate($value)
@@ -161,13 +166,16 @@ class Index extends Component
 
     public function mount($parentId = null)
     {
+        if (isset($parentId) && $parentId != ""){
+            $this->project = Project::findOrFail($parentId);
+        }
         $this->parent_id = $parentId;
     }
 
     public function render()
     {
         return view('livewire.project.index', [
-            'projects' => Project::with('translations')->with('childs')->with('owner')->with('creator')->with('members')->where('parent_id', $this->parent_id)->paginate($this->itemsPerPage),
+            'projects' => Project::with('translations')->with('childs')->with('owner')->with('creator')->with('members')->where('parent_id', $this->parent_id)->latest()->paginate($this->itemsPerPage),
             'users' => User::all(),
             'locales' => config('translatable.locales'),
             'default_locale' => config('app.locale')

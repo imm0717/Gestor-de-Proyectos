@@ -101,7 +101,7 @@
                             <div wire:ignore.self class="tab-pane fade border show" id="nav-tasks" role="tabpanel"
                                 aria-labelledby="nav-files-tab">
                                 <div class="container pt-2" style="min-height: 150px">
-                                    <livewire:task.index :project="$project" :parent="null" />
+                                    <livewire:task.index :projectId="$project->id" :parentId="null" />
                                 </div>
                             </div>
                             <div wire:ignore.self class="tab-pane fade border show" id="nav-collaborators"

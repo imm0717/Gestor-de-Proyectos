@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Task;
 
+use App\Models\Project;
 use App\Models\Task;
 use App\Traits\WithLogs;
 use Carbon\Carbon;
@@ -14,14 +15,17 @@ class Index extends Component
     use WithPagination;
     use WithLogs;
 
-    public $project;
-    public $parent;
     private $itemsPerPage = 10;
-    protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['selectEndDate', 'selectStartDate'];
-
+    
+    public $project;
+    public $parent_id;
+    public $project_id;
     public $task;
     public $data = [];
+    public $deleteModalId = "deleteTaskModal";
+    
+    protected $paginationTheme = 'bootstrap';
+    protected $listeners = ['delete','selectEndDate', 'selectStartDate'];
 
     protected $rules = [
         'data.en.name' => 'required|string|max:50',
@@ -53,19 +57,17 @@ class Index extends Component
     {
         $this->resetValidation();
         $this->task = new Task();
-        if ($parent_id != "" && $parent_id != null){
-            $parent_task = Task::findOrFail($parent_id);
-            $this->task->project_id = $parent_task->project->id;
-        }
-        //$this->task->project_id = (isset($this->project->id)) ? $this->project->id : null;
-        $this->task->parent_id = $parent_id;
+        $this->task->parent_id = (isset($parent_id) && $parent_id != "") ? $parent_id : null;
         $this->task->created_by_id = auth()->id();
         $this->task->start_date = Carbon::now()->format('d-m-Y');
         $this->task->end_date = Carbon::now()->addDay()->format('d-m-Y');
 
-        if (isset($parent_id)) {
+        if (isset($parent_id) && $parent_id != "") {
             $parent_task = Task::find($parent_id);
+            $this->task->project_id = $parent_task->project->id;
             $parent_translations = $parent_task->getTranslationsArray();
+        }else{
+            $this->task->project_id = (isset($this->project_id) && $this->project_id != "") ? $this->project_id : null;
         }
         foreach (config('translatable.locales') as $locale) {
             $this->data[$locale]['name'] = '';
@@ -93,7 +95,6 @@ class Index extends Component
 
     public function submit()
     {
-
         if ($this->task->id == "") {
             $log_action = WithLogs::$create;
             $log_message = "Task created";
@@ -114,17 +115,17 @@ class Index extends Component
             }
         }
 
-        try {
+        //try {
             $this->task->save();
             $this->logActivity($log_action, $log_message, ['model' => Task::class, 'id' => $this->task->id]);
 
             $this->dispatchBrowserEvent('closeModal');
             $this->resetForm();
             session()->flash('message', 'Todo OK');
-        } catch (QueryException $e) {
+        /* } catch (QueryException $e) {
             $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Task::class, 'id' => isset($this->task->id) ? $this->task->id : null]);
             session()->flash('message', 'Ocurrio un error');
-        }
+        } */
     }
 
     public function selectStartDate($value)
@@ -142,6 +143,7 @@ class Index extends Component
     public function showDeleteConfirmationModal($id)
     {
         $this->task = Task::find($id);
+        $this->dispatchBrowserEvent('show'.$this->deleteModalId);
     }
 
     public function delete()
@@ -154,25 +156,29 @@ class Index extends Component
             $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Task::class, 'id' => $this->task->id]);
         }
 
-        $this->dispatchBrowserEvent('closeDeleteModal');
+        //$this->dispatchBrowserEvent('closeDeleteModal');
+        $this->dispatchBrowserEvent('close'.$this->deleteModalId);
     }
 
     public function getTasks()
     {
-        if ($this->parent == null) {
-            if ($this->project == null)
-                return Task::with('translations')->with('childs')->where('parent_id', null)->paginate($this->itemsPerPage);
+        if ($this->parent_id == null) {
+            if ($this->project_id == null)
+                return Task::with('translations')->with('childs')->where('parent_id', null)->latest()->paginate($this->itemsPerPage);
             else
-                return Task::with('translations')->with('childs')->where('project_id', '=', $this->project->id, 'and')->where('parent_id', null)->paginate($this->itemsPerPage);
+                return Task::with('translations')->with('childs')->where('project_id', '=', $this->project_id, 'and')->where('parent_id', null)->latest()->paginate($this->itemsPerPage);
         } else {
-            return Task::with('translations')->with('childs')->where('project_id', '=', $this->project->id, 'and')->where('parent_id', $this->parent->id)->paginate($this->itemsPerPage);
+            return Task::with('translations')->with('childs')->where('project_id', '=', $this->project_id, 'and')->where('parent_id', $this->parent_id)->latest()->paginate($this->itemsPerPage);
         }
     }
 
-    public function mount($project, $parent)
+    public function mount($projectId, $parentId)
     {
-        $this->project = $project;
-        $this->parent = $parent;
+        if (isset($projectId) && $projectId != ""){
+            $this->project = Project::findOrFail($projectId);
+        }
+        $this->project_id = $projectId;
+        $this->parent_id = $parentId;
     }
 
     public function render()

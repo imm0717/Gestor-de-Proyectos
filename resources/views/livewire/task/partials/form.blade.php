@@ -36,13 +36,13 @@
                             </button>
                         </div>
                     @endif
-                <ul class="nav nav-tabs" id="langTab" role="tablist">
+                <ul class="nav nav-tabs" role="tablist">
                     <nav>
-                        <div class="nav nav-tabs" id="nav-tab-lang" role="tablist">
+                        <div class="nav nav-tabs" id="nav-tab-tasklang" role="tablist">
                             @foreach (config('translatable.locales') as $locale)
                                 <a wire:ignore class="nav-item nav-link font-weight-bold @if ($locale==config('app.locale')) active @endif"
-                                    id="nav-{{ $locale }}-tab" data-toggle="tab" href="#nav-{{ $locale }}"
-                                    role="tab" aria-controls="nav-{{ $locale }}"
+                                    id="nav-{{ $locale }}-tab" data-toggle="tab" href="#nav-{{ $locale }}-task"
+                                    role="tab" aria-controls="nav-{{ $locale }}-task"
                                     aria-selected="true">{{ strtoupper($locale) }}</a>
                             @endforeach
                         </div>
@@ -52,7 +52,7 @@
                     <div class="tab-content" id="nav-tabContent">
                         @foreach (config('translatable.locales') as $locale)
                             <div wire:ignore.self class="tab-pane fade border show @if ($locale==config('app.locale')) active @endif"
-                                id="nav-{{ $locale }}" role="tabpanel"
+                                id="nav-{{ $locale }}-task" role="tabpanel"
                                 aria-labelledby="nav-{{ $locale }}-tab">
                                 <div class="container pt-2">
                                     @if (isset($data[$locale]['parent_name']) && $data[$locale]['parent_name'] != '')
@@ -111,7 +111,7 @@
                                     <div class="form-group">
                                         <label for="desciption">{{ __('Description') }}</label>
                                         <textarea class="form-control @if ($errors->has('data.' . $locale . '.description')) is-invalid @endif"
-                                                id="desciption" rows="3"
+                                                rows="3"
                                                 wire:model.debounce.500ms="data.{{ $locale }}.description"></textarea>
                                         @if ($errors->has('data.' . $locale . '.description'))
                                             <div class="invalid-feedback">

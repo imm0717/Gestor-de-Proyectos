@@ -81,11 +81,9 @@
                                         id="nav-description-tab" data-toggle="tab" href="#nav-description" role="tab"
                                         aria-controls="nav-description"
                                         aria-selected="true">@lang('view.livewire.task.details.description_tab')</a>
-                                    @if (!isset($this->task->parent))
-                                        <a wire:ignore class="nav-item nav-link font-weight-bold" id="nav-tasks-tab"
-                                            data-toggle="tab" href="#nav-tasks" role="tab" aria-controls="nav-tasks"
-                                            aria-selected="true">@lang('view.livewire.task.details.tasks_tab')</a>
-                                    @endif
+                                    <a wire:ignore class="nav-item nav-link font-weight-bold" id="nav-tasks-tab"
+                                        data-toggle="tab" href="#nav-tasks" role="tab" aria-controls="nav-tasks"
+                                        aria-selected="true">@lang('view.livewire.task.details.tasks_tab')</a>
                                     <a wire:ignore class="nav-item nav-link font-weight-bold" id="nav-collaborators-tab"
                                         data-toggle="tab" href="#nav-collaborators" role="tab"
                                         aria-controls="nav-collaborators"
@@ -103,15 +101,12 @@
                                     {{ $task->translate($default_locale)->description }}
                                 </div>
                             </div>
-                            @if (!isset($this->task->parent))
-                                <div wire:ignore.self class="tab-pane fade border show" id="nav-tasks" role="tabpanel"
-                                    aria-labelledby="nav-files-tab">
-                                    <div class="container pt-2" style="min-height: 150px">
-                                        <livewire:task.index :project="$task->project" :parent="$task" />
-
-                                    </div>
+                            <div wire:ignore.self class="tab-pane fade border show" id="nav-tasks" role="tabpanel"
+                                aria-labelledby="nav-files-tab">
+                                <div class="container pt-2" style="min-height: 150px">
+                                    <livewire:task.index :projectId="$task->project->id" :parentId="$task->id" />
                                 </div>
-                            @endif
+                            </div>
                             <div wire:ignore.self class="tab-pane fade border show" id="nav-collaborators"
                                 role="tabpanel" aria-labelledby="nav-collaborators-tab">
                                 <div class="container pt-2" style="min-height: 150px">

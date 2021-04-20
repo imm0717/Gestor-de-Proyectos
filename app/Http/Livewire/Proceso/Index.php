@@ -130,7 +130,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.proceso.index', [
-            'processes' => Proceso::with('translations')->with('childs')->where('parent_id', '=', null, 'and')->where('created_by_id', Auth::id())->paginate($this->itemsPerPage),
+            'processes' => Proceso::with('translations')->with('childs')->where('parent_id', '=', null, 'and')->where('created_by_id', Auth::id())->latest()->paginate($this->itemsPerPage),
             'locales' => config('translatable.locales'),
             'default_locale' => config('app.locale')
         ]);

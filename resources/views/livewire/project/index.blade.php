@@ -11,11 +11,22 @@
                 <th scope="col">@lang('view.livewire.project.index.table.header-name')</th>
                 <th scope="col" width="10%">@lang('view.livewire.project.index.table.header-startdate')</th>
                 <th scope="col" width="10%">
-                    <!-- Button trigger modal -->
-                    <button type="button" wire:click="resetForm('{{ $parent_id }}')" class="btn btn-primary btn-sm"
-                        data-toggle="modal" data-target="#projectModal">
-                        {{ __('New') }}
-                    </button>
+                    @if ($parent_id == '')
+                        <button type="button" wire:click="resetForm('{{ $parent_id }}')"
+                            class="btn btn-primary btn-sm" data-toggle="modal" data-target="#projectModal">
+                            {{ __('New') }}
+                        </button>
+                    @else
+                        @can('add-subproject', $project)
+                            <button type="button" wire:click="resetForm('{{ $parent_id }}')"
+                                class="btn btn-primary btn-sm" data-toggle="modal" data-target="#projectModal">
+                                {{ __('New') }}
+                            </button>
+                        @endcan
+
+                    @endif
+
+
                 </th>
             </tr>
         </thead>
@@ -65,11 +76,11 @@
     {{ $projects->links() }}
     @include('livewire.project.partials.form')
     @include('partials.alerts')
-    @include('partials.delete-modal')
+
+    <livewire:partials.delete-modal :modalId="$deleteModalId" />
 </div>
 @push('scripts')
     <script type="text/javascript">
-        
         function initCalendar() {
             $('.projectStartDate').datetimepicker({
                 format: 'DD-MM-YYYY'
@@ -85,13 +96,9 @@
                 Livewire.emit("selectProjectEndDate", date)
             })
         }
-        
+
         window.addEventListener('projectStored', () => {
             $('#projectModal').modal('hide');
-        })
-
-        window.addEventListener('closeDeleteModal', () => {
-            $('#delete_modal').modal('hide');
         })
 
         window.addEventListener('initCalendar', function() {
