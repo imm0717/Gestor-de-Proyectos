@@ -95,6 +95,12 @@ return [
         'delete-modal' => [
             'title' => 'Confirmación de Borrado',
             'body' => 'Está seguro que desea borrar este artículo?'
+        ],
+        'alert' => [
+            'error-title' => 'Error',
+            'error-body' => 'Ha ocurrido un error, lo sentimos!',
+            'info-title' => 'Información',
+            'info-body' => 'La operación se ha realizado con éxito'
         ]
     ]
 

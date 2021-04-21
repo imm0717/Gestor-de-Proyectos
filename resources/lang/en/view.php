@@ -95,6 +95,12 @@ return [
         'delete-modal' => [
             'title' => 'Delete Confirmation',
             'body' => 'Are you sure you want to delete this item?'
+        ],
+        'alert' => [
+            'error-title' => 'Error',
+            'error-body' => 'There was an error, sorry!',
+            'info-title' => 'Info',
+            'info-body' => 'The operation was successful'
         ]
     ]
 

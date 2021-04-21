@@ -36,10 +36,12 @@ class Detail extends Component
             $this->task->save();
             $this->task->refresh();
             $this->logActivity(WithLogs::$update, $log_message, ['model' => Task::class, 'id' => $this->task->id]);
-            //$this->emit('responsibleChanged');
+            session()->flash('message', __('view.partials.alert.info-body'));
+            $this->dispatchBrowserEvent('alert');
         } catch (QueryException $e) {
             $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Task::class, 'id' => $this->task->id]);
-            session()->flash('message', 'Error');
+            session()->flash('error', __('view.partials.alert.error-body'));
+            $this->dispatchBrowserEvent('alert');
         }
     }
 
@@ -56,10 +58,13 @@ class Detail extends Component
             $this->task->save();
             $this->task->refresh();
             $this->logActivity(WithLogs::$update, $log_message, ['model' => Task::class, 'id' => $this->task->id]);
+            session()->flash('message', __('view.partials.alert.info-body'));
+            $this->dispatchBrowserEvent('alert');
 
         } catch (QueryException $e) {
             $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Task::class, 'id' => $this->task->id]);
-            session()->flash('message', 'Problemas al completar Tarea');
+            session()->flash('error', __('view.partials.alert.error-body'));
+            $this->dispatchBrowserEvent('alert');
         }
     }
 
@@ -71,7 +76,6 @@ class Detail extends Component
 
     public function render()
     {
-        //dd($this->task->project);
         return view('livewire.task.detail', [
             'users' => $this->getUsers(),
             'default_locale' => config('app.locale')

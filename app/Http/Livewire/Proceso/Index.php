@@ -104,10 +104,12 @@ class Index extends Component
             $this->logActivity($log_action, $log_message, ['model' => Process::class, 'id' => $this->process->id]);
             $this->dispatchBrowserEvent('processStored');
             $this->resetForm();
-            session()->flash('message', 'Todo OK');
+            session()->flash('message', __('view.partials.alert.info-body'));
+            $this->dispatchBrowserEvent('alert');
         } catch (QueryException $e) {
             $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Process::class, 'id' => isset($this->process->id) ? $this->process->id : null]);
-            session()->keep('message', 'Ocurrio un error');
+            session()->flash('error', __('view.partials.alert.error-body'));
+            $this->dispatchBrowserEvent('alert');
         }
     }
 
@@ -123,8 +125,12 @@ class Index extends Component
             $log_message = "Proceso eliminado";
             $this->process->delete();
             $this->logActivity(WithLogs::$delete, $log_message, ['model' => Process::class, 'id' => $this->process->id]);
+            session()->flash('message', __('view.partials.alert.info-body'));
+            $this->dispatchBrowserEvent('alert');
         } catch (QueryException $e) {
             $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Process::class, 'id' => $this->process->id]);
+            session()->flash('error', __('view.partials.alert.error-body'));
+            $this->dispatchBrowserEvent('alert');
         }
 
         $this->dispatchBrowserEvent('close'.$this->deleteModalId);

@@ -64,7 +64,7 @@
         </div>
     </div>
     @include('livewire.proceso.partials.form')
-
+    @include('partials.alerts')
     <livewire:partials.delete-modal :modalId="$deleteModalId">
 </div>
 @push('scripts')
@@ -72,10 +72,5 @@
         window.addEventListener('processStored', () => {
             $('#exampleModal').modal('hide');
         })
-
-        $(document).ready(function() {
-            $(".toast").toast();
-        });
-
     </script>
 @endpush

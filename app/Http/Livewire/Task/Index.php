@@ -115,17 +115,18 @@ class Index extends Component
             }
         }
 
-        //try {
+        try {
             $this->task->save();
             $this->logActivity($log_action, $log_message, ['model' => Task::class, 'id' => $this->task->id]);
-
             $this->dispatchBrowserEvent('closeModal');
             $this->resetForm();
-            session()->flash('message', 'Todo OK');
-        /* } catch (QueryException $e) {
+            session()->flash('message', __('view.partials.alert.info-body'));
+            $this->dispatchBrowserEvent('alert');
+        } catch (QueryException $e) {
             $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Task::class, 'id' => isset($this->task->id) ? $this->task->id : null]);
-            session()->flash('message', 'Ocurrio un error');
-        } */
+            session()->flash('error', __('view.partials.alert.error-body'));
+            $this->dispatchBrowserEvent('alert');
+        }
     }
 
     public function selectStartDate($value)
@@ -152,11 +153,14 @@ class Index extends Component
             $log_message = "Tarea eliminada";
             $this->task->delete();
             $this->logActivity(WithLogs::$delete, $log_message, ['model' => Task::class, 'id' => $this->task->id]);
+            session()->flash('message', __('view.partials.alert.info-body'));
+            $this->dispatchBrowserEvent('alert');
+            
         } catch (QueryException $e) {
             $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Task::class, 'id' => $this->task->id]);
+            session()->flash('error', __('view.partials.alert.error-body'));
+            $this->dispatchBrowserEvent('alert');
         }
-
-        //$this->dispatchBrowserEvent('closeDeleteModal');
         $this->dispatchBrowserEvent('close'.$this->deleteModalId);
     }
 

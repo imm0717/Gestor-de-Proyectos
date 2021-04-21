@@ -34,11 +34,14 @@ class Detail extends Component
         try {
             $this->project->save();
             $this->project->refresh();
+            session()->flash('message', __('view.partials.alert.info-body'));
+            $this->dispatchBrowserEvent('alert');
             $this->logActivity(WithLogs::$update, $log_message, ['model' => Project::class, 'id' => $this->project->id]);
             $this->emit('ownerChanged');
         } catch (QueryException $e) {
             $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Project::class, 'id' => $this->project->id]);
-            session()->flash('message', 'Error');
+            session()->flash('error', __('view.partials.alert.error-body'));
+            $this->dispatchBrowserEvent('alert');
         }
     }
 

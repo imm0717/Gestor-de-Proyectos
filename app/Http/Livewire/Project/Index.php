@@ -119,14 +119,14 @@ class Index extends Component
 
         try {
             $this->project->save();
-            session()->flash('message', $log_message);
+            session()->flash('message', __('view.partials.alert.info-body'));
             $this->logActivity($log_action, $log_message, ['model' => Project::class, 'id' => $this->project->id]);
             $this->dispatchBrowserEvent('projectStored');
             $this->dispatchBrowserEvent('alert');
             $this->resetForm();
         } catch (QueryException $e) {
-            session()->flash('message', "Error al gestionar Proyecto");
             $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Project::class, 'id' => isset($this->project->id) ? $this->project->id : null]);
+            session()->flash('error', __('view.partials.alert.error-body'));
             $this->dispatchBrowserEvent('alert');
         }
     }
@@ -142,11 +142,14 @@ class Index extends Component
         try {
             $log_message = "Proyecto eliminado";
             $this->project->delete();
-            session()->flash('message', $log_message);
             $this->logActivity(WithLogs::$delete, $log_message, ['model' => Project::class, 'id' => $this->project->id]);
+
+            session()->flash('message', __('view.partials.alert.info-body'));
             $this->dispatchBrowserEvent('alert');
         } catch (QueryException $e) {
+
             $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Project::class, 'id' => $this->project->id]);
+            session()->flash('error', __('view.partials.alert.error-body'));
             $this->dispatchBrowserEvent('alert');
         }
 
@@ -176,7 +179,7 @@ class Index extends Component
     private function getProjects()
     {
         if (isset($this->parent_id)) {
-            
+
             return Project::with('translations')->with('childs')
                 ->with('owner')
                 ->with('creator')

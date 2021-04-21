@@ -81,6 +81,7 @@
     @include('livewire.task.partials.form')
 
     <livewire:partials.delete-modal :modalId="$deleteModalId" />
+    @include('partials.alerts')
 
     </div>
     @push('scripts')
