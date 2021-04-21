@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Task;
 
 use App\Traits\WithLogs;
+use Carbon\Carbon;
 use Livewire\Component;
 use Illuminate\Database\QueryException;
 
@@ -12,10 +13,11 @@ class Detail extends Component
 
     public $task;
     public $responsible;
+    public $completed = false;
 
-    
     protected $rules = [
-        'responsible' => 'nullable'
+        'responsible' => 'nullable',
+        'completed' => 'nullable'
     ];
 
     private function getUsers()
@@ -29,7 +31,7 @@ class Detail extends Component
     {
         $log_message = "Responsable de la Tarea actualizado";
         $this->task->responsible_id = ($responsible_id != "") ? $responsible_id : null;
-        
+
         try {
             $this->task->save();
             $this->task->refresh();
@@ -38,12 +40,33 @@ class Detail extends Component
         } catch (QueryException $e) {
             $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Task::class, 'id' => $this->task->id]);
             session()->flash('message', 'Error');
-        } 
+        }
+    }
+
+    public function updatedCompleted($value)
+    {
+        try {
+            if ($value) {
+                $this->task->real_end_date = Carbon::now()->format('d-m-Y');
+                $log_message = "Tarea marcada como completada";
+            }else{
+                $this->task->real_end_date = null;
+                $log_message = "Tarea marcada como no completada";
+            }
+            $this->task->save();
+            $this->task->refresh();
+            $this->logActivity(WithLogs::$update, $log_message, ['model' => Task::class, 'id' => $this->task->id]);
+
+        } catch (QueryException $e) {
+            $this->logActivity(WithLogs::$error, $e->getMessage(), ['model' => Task::class, 'id' => $this->task->id]);
+            session()->flash('message', 'Problemas al completar Tarea');
+        }
     }
 
     public function mount()
     {
         $this->responsible = $this->task->responsible_id;
+        $this->completed = ($this->task->real_end_date != null) ? true : false;
     }
 
     public function render()

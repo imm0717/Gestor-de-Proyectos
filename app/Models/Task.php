@@ -31,11 +31,22 @@ class Task extends Model implements TranslatableContract
             $this->attributes['end_date'] = Carbon::createFromFormat('d-m-Y', $value)->format('Y-m-d');
     }
 
+    public function setRealEndDateAttribute($value){
+        if (isset($value))
+            $this->attributes['real_end_date'] = Carbon::createFromFormat('d-m-Y', $value)->format('Y-m-d');
+        else
+            $this->attributes['real_end_date'] = null;
+    }
+
     public function getStartDateAttribute($value){
         return (isset($value)) ? Carbon::createFromFormat('Y-m-d', $value)->format('d-m-Y') : $value;
     }
 
     public function getEndDateAttribute($value){
+        return (isset($value)) ? Carbon::createFromFormat('Y-m-d', $value)->format('d-m-Y') : $value;
+    }
+
+    public function getRealEndDateAttribute($value){
         return (isset($value)) ? Carbon::createFromFormat('Y-m-d', $value)->format('d-m-Y') : $value;
     }
 

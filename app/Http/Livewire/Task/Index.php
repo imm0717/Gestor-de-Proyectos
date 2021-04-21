@@ -163,9 +163,15 @@ class Index extends Component
     public function getTasks()
     {
         if ($this->parent_id == null) {
-            if ($this->project_id == null)
-                return Task::with('translations')->with('childs')->where('parent_id', null)->latest()->paginate($this->itemsPerPage);
-            else
+            if ($this->project_id == null){
+                return Task::with('translations')
+                ->with('childs')
+                ->where('real_end_date', '=' , null, 'and')
+                ->where('created_by_id', auth()->id())
+                ->orWhere('responsible_id', auth()->id())
+                ->orderBy('end_date', 'asc')
+                ->paginate($this->itemsPerPage);
+            }else
                 return Task::with('translations')->with('childs')->where('project_id', '=', $this->project_id, 'and')->where('parent_id', null)->latest()->paginate($this->itemsPerPage);
         } else {
             return Task::with('translations')->with('childs')->where('project_id', '=', $this->project_id, 'and')->where('parent_id', $this->parent_id)->latest()->paginate($this->itemsPerPage);

@@ -20,5 +20,7 @@
   "My Tasks": "Mis Tareas",
   "Add Subprocess": "Agregar Subproceso",
   "Parent process": "Proceso Padre",
-  "Processes": "Procesos"
+  "Processes": "Procesos",
+  "Completed Date": "Tarea Completada",
+  "Responsible": "Responsable"
 }

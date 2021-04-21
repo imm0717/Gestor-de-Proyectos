@@ -41,7 +41,7 @@ return [
                     'header-startdate' => 'Start Date',
                     'header-enddate' => 'End Date'
                 ],
-                'title' => 'Tasks & Subtasks'
+                'title' => 'Tasks Asigned'
             ],
             'details' => [
                 'title' => 'Task Details',
@@ -49,6 +49,7 @@ return [
                 'tasks_tab' => 'Subtasks',
                 'members_tab' => 'Collaborators',
                 'files_tab' => 'Attached Files',
+                'task_completed' => 'Tarea Completada',
             ],
             'partials' => [
                 'form' => [

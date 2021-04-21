@@ -42,7 +42,7 @@ return [
                     'header-startdate' => 'Fecha de Inicio',
                     'header-enddate' => 'Fecha de Terminación'
                 ],
-                'title' => 'Tareas y Subtareas'
+                'title' => 'Tareas Asignadas'
             ],
             'details' => [
                 'title' => 'Detalles de la Tarea',
@@ -50,6 +50,7 @@ return [
                 'tasks_tab' => 'Subtareas',
                 'members_tab' => 'Colaboradores',
                 'files_tab' => 'Ficheros Adjuntos',
+                'task_completed' => 'Tarea Completada',
             ],
             'partials' => [
                 'form' => [

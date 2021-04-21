@@ -1,5 +1,4 @@
 <div>
-    {{ $project_id }}
     <table class="table table-striped table-bordered table-hover table-checkable table-sm" id="task_list_table">
         <thead>
             <tr>
@@ -19,7 +18,7 @@
                                 </button>
                             @endcan
                         @else
-                        @can('add-task', $project)
+                            @can('add-task', $project)
                                 <button type="button" wire:click="resetForm('{{ $parent_id }}')"
                                     class="btn btn-primary btn-sm" data-toggle="modal" data-target="#taskModal">
                                     {{ __('New') }}
@@ -47,23 +46,27 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item"
                                     href="{{ route('task.detail', $task_data->id) }}">{{ __('Details') }}</a>
-                                @can('edit-task', $task_data->project)
-                                    <a class="dropdown-item" href="#" wire:click="edit('{{ $task_data->id }}')"
-                                        data-toggle="modal" data-target="#taskModal">{{ __('Edit') }}</a>
-                                @endcan
-                                @can('add-subtask', $task_data->project)
-                                    <a class="dropdown-item" href="#" wire:click="resetForm('{{ $task_data->id }}')"
-                                        data-toggle="modal" data-target="#taskModal">{{ __('Add Subtask') }}</a>
+                                @if ($project_id != null)
+                                    @can('edit-task', $task_data->project)
+                                        <a class="dropdown-item" href="#" wire:click="edit('{{ $task_data->id }}')"
+                                            data-toggle="modal" data-target="#taskModal">{{ __('Edit') }}</a>
+                                    @endcan
+                                    @can('add-subtask', $task_data->project)
+                                        <a class="dropdown-item" href="#" wire:click="resetForm('{{ $task_data->id }}')"
+                                            data-toggle="modal" data-target="#taskModal">{{ __('Add Subtask') }}</a>
+                                    @endif
+                                    @can('delete-task', $task_data->project)
+                                        <a class="dropdown-item" href="#"
+                                            wire:click="showDeleteConfirmationModal('{{ $task_data->id }}')"
+                                            data-toggle="modal" data-target="#delete_modal">{{ __('Delete') }}</a>
+                                    @endcan
                 @endif
-                @can('delete-task', $task_data->project)
-                    <a class="dropdown-item" href="#" wire:click="showDeleteConfirmationModal('{{ $task_data->id }}')"
-                        data-toggle="modal" data-target="#delete_modal">{{ __('Delete') }}</a>
-                @endcan
+
     </div>
     </div>
     </td>
     </tr>
-    @if ($task_data->childs()->count() > 0)
+    @if ($task_data->childs()->count() > 0 && $project_id != null)
         <tr>
             <td colspan="6">
                 @include('livewire.task.partials.subtask-list', ['childs' => $task_data->childs(), 'loop_id' =>
