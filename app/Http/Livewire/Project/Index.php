@@ -9,6 +9,7 @@ use Illuminate\Database\QueryException;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Traits\WithLogs;
+use Illuminate\Support\Facades\DB;
 
 class Index extends Component
 {
@@ -25,7 +26,7 @@ class Index extends Component
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['delete', 'selectProjectEndDate', 'selectProjectStartDate'];
 
-    
+
 
     protected $rules = [
         'data.en.name' => 'required|string|max:50',
@@ -133,7 +134,7 @@ class Index extends Component
     public function showDeleteConfirmationModal($id)
     {
         $this->project = Project::find($id);
-        $this->dispatchBrowserEvent('show'.$this->deleteModalId);
+        $this->dispatchBrowserEvent('show' . $this->deleteModalId);
     }
 
     public function delete()
@@ -149,7 +150,7 @@ class Index extends Component
             $this->dispatchBrowserEvent('alert');
         }
 
-        $this->dispatchBrowserEvent('close'.$this->deleteModalId);
+        $this->dispatchBrowserEvent('close' . $this->deleteModalId);
     }
 
     public function selectProjectStartDate($value)
@@ -166,16 +167,41 @@ class Index extends Component
 
     public function mount($parentId = null)
     {
-        if (isset($parentId) && $parentId != ""){
+        if (isset($parentId) && $parentId != "") {
             $this->project = Project::findOrFail($parentId);
         }
         $this->parent_id = $parentId;
     }
 
+    private function getProjects()
+    {
+        if (isset($this->parent_id)) {
+            
+            return Project::with('translations')->with('childs')
+                ->with('owner')
+                ->with('creator')
+                ->with('members')
+                ->where('parent_id', $this->parent_id)
+                ->paginate($this->itemsPerPage);
+        } else {
+
+            $project_member = Project::select('projects.*')->join('project_members', 'projects.id', '=', 'project_members.project_id')->where('projects.parent_id', $this->parent_id, 'and')->where('project_members.user_id', auth()->id());
+            return Project::with('translations')->with('childs')
+                ->with('owner')
+                ->with('creator')
+                ->with('members')
+                ->where('parent_id', $this->parent_id)
+                ->where('created_by_id', auth()->id())
+                ->orWhere('owner_id', auth()->id())
+                ->union($project_member)
+                ->paginate($this->itemsPerPage);
+        }
+    }
+
     public function render()
     {
         return view('livewire.project.index', [
-            'projects' => Project::with('translations')->with('childs')->with('owner')->with('creator')->with('members')->where('parent_id', $this->parent_id)->latest()->paginate($this->itemsPerPage),
+            'projects' => $this->getProjects(),
             'users' => User::all(),
             'locales' => config('translatable.locales'),
             'default_locale' => config('app.locale')
