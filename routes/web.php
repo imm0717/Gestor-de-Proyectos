@@ -1,12 +1,12 @@
 <?php
 
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\ProcesoController;
 use App\Http\Controllers\ProcessController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +40,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/tasks/{task}', [TaskController::class, 'show'])->name('task.detail');
 
     Route::get('/processes', [ProcesoController::class, 'index'])->name('processes');
+
+    Route::get('/logs', LogController::class)->name('logs');
 });
 
 

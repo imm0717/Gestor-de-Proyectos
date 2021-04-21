@@ -22,7 +22,7 @@
         rel="stylesheet">
     <link href="{{ asset('vendor/general/bootstrap-select-1.13.0-dev/dist/css/bootstrap-select.min.css') }}"
         rel="stylesheet">
-    
+
     @livewireStyles
     @stack('styles')
 
@@ -69,6 +69,12 @@
                                         href="{{ route('processes') }}">{{ __('Processes') }}</a>
                                 </li>
                             @endif
+                            @if (Route::has('logs'))
+                                <li class="nav-item">
+                                    <a class="nav-link {{ \Illuminate\Support\Facades\Route::current()->getName() == 'logs' ? 'active' : '' }}"
+                                        href="{{ route('logs') }}">{{ __('Logs') }}</a>
+                                </li>
+                            @endif
                         @endauth
                     </ul>
 
@@ -96,7 +102,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                                     document.getElementById('logout-form').submit();">
+                                                                         document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
@@ -123,36 +129,26 @@
     </script>
 
     <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-    <script
-        src="{{ asset('vendor/general/bootstrap-select-1.13.0-dev/dist/js/i18n/defaults-es_ES.min.js') }}">
+    <script src="{{ asset('vendor/general/bootstrap-select-1.13.0-dev/dist/js/i18n/defaults-es_ES.min.js') }}">
     </script>
 
     <script
         src="{{ asset('vendor/general/Date-Time-Picker-Bootstrap-4/build/js/bootstrap-datetimepicker.min.js') }}">
     </script>
-    
+
     @livewireScripts
     <script>
-        window.addEventListener('alert', event => { 
-                     /* toastr[event.detail.type](event.detail.message, 
-                     event.detail.title ?? '') toastr.options = {
-                            "closeButton": true,
-                            "progressBar": true,
-                        } */
-
-                        $('.toast').toast({
-                            'animation': true,
-                            'autohide': true,
-                            'delay': 5000
-                        });
-                        $('.toast').toast('show');
-                        //console.log('Toast ejecutado');
-
-
-                    })
-         </script> 
+        window.addEventListener('alert', event => {
+            $('.toast').toast({
+                'animation': true,
+                'autohide': true,
+                'delay': 5000
+            });
+            $('.toast').toast('show');
+        })
+    </script>
     @stack('scripts')
-    
+
 </body>
 
 </html>

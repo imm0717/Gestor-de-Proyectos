@@ -26,9 +26,9 @@ return [
             ],
             'partials' => [
                 'form' => [
-                    'create' => 'Create Project',
+                    'create' => 'New Project',
                     'update' => 'Update Project',
-                    'create-subproject' => 'Create Subproject',
+                    'create-subproject' => 'New Subproject',
                     'update-subproject' => 'Update Subproject'
                 ]
             ]
@@ -59,8 +59,37 @@ return [
                 ]
             ]
 
+        ],
+        'process' => [
+            'index' => [
+                'table' => [
+                    'header-name' => 'Name',
+                ],
+                'title' => 'Process & Subprocess'
+            ],
+
+            'partials' => [
+                'form' => [
+                    'create' => 'New Process',
+                    'update' => 'Update Process',
+                    'create-subprocess' => 'New Subprocess',
+                    'update-subprocess' => 'Update Subprocess'
+                ]
+            ]
+        ],
+        'logs' => [
+            'index' => [
+                'table' => [
+                    'header-type' => 'Type',
+                    'header-description' => 'Description',
+                    'header-date' => 'Date'
+                ],
+                'title' => 'Logs'
+
+            ]
         ]
     ],
+
     'partials' => [
         'delete-modal' => [
             'title' => 'Delete Confirmation',
